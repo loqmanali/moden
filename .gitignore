@@ -32,10 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
-analysis_options.yaml
 flutter_template.iml
-pubspec.lock
-pubspec.yaml
 
 # Symbolication related
 app.*.symbols
