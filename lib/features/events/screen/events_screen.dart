@@ -9,11 +9,11 @@ import '../../../shared/widgets/body_widget.dart';
 import '../../../shared/widgets/header_widget.dart';
 
 class EventsScreen extends StatelessWidget {
-  const EventsScreen({Key? key}) : super(key: key);
+  const EventsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return const AppScaffold(
       header: HeaderEvent(),
       body: BodyEvent(),
     );
@@ -27,7 +27,7 @@ class HeaderEvent implements Header {
     return HeaderWidget(
       title: 'Events',
       trailing: IconButton(
-        icon: Icon(
+        icon: const Icon(
           FIcons.logOut,
           color: Colors.white,
         ),
@@ -44,7 +44,7 @@ class BodyEvent implements Body {
   @override
   Widget build(BuildContext context) {
     return BodyWidget(
-      backgroundColor: Color(0xFFF5F8FA),
+      backgroundColor: const Color(0xFFF5F8FA),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: SingleChildScrollView(

@@ -21,7 +21,7 @@ class BodyWidget extends StatelessWidget {
             topRight: Radius.circular(30),
           ),
           child: Container(
-            key: const ValueKey("12:352"),
+            key: const ValueKey('12:352'),
             width: double.infinity,
             color: backgroundColor ?? Colors.white,
             child: SafeArea(

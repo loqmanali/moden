@@ -89,7 +89,7 @@ class HeaderWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AppSpacing.height(25),
+          const AppSpacing.height(25),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: centerTitle

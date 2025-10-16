@@ -7,9 +7,9 @@ Future<String> bumpBuildNumber() async {
   final pubspecFile = File('pubspec.yaml');
 
   if (!await pubspecFile.exists()) {
-    throw ProcessException(
+    throw const ProcessException(
       'pubspec.yaml',
-      const [],
+      [],
       'pubspec.yaml not found in the current directory.',
       1,
     );
@@ -19,9 +19,9 @@ Future<String> bumpBuildNumber() async {
   final match = _versionPattern.firstMatch(content);
 
   if (match == null) {
-    throw ProcessException(
+    throw const ProcessException(
       'pubspec.yaml',
-      const [],
+      [],
       'Failed to find a version line in pubspec.yaml.',
       1,
     );
@@ -45,9 +45,9 @@ Future<String> readCurrentVersion() async {
   final pubspecFile = File('pubspec.yaml');
 
   if (!await pubspecFile.exists()) {
-    throw ProcessException(
+    throw const ProcessException(
       'pubspec.yaml',
-      const [],
+      [],
       'pubspec.yaml not found in the current directory.',
       1,
     );
@@ -57,9 +57,9 @@ Future<String> readCurrentVersion() async {
   final match = _versionPattern.firstMatch(content);
 
   if (match == null) {
-    throw ProcessException(
+    throw const ProcessException(
       'pubspec.yaml',
-      const [],
+      [],
       'Failed to find a version line in pubspec.yaml.',
       1,
     );

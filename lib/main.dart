@@ -65,7 +65,7 @@ class NoStretchScrollBehavior extends ScrollBehavior {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
           if (kIsWeb) {
             return LayoutBuilder(
               builder: (context, constraints) {
-                const double targetWidth = 430;
+                const double targetWidth = 361;
                 return Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(

@@ -15,7 +15,7 @@ import 'package:modn/shared/widgets/header_widget.dart';
 import '../../../core/routes/app_navigators.dart';
 
 class QrScreen extends StatefulWidget {
-  const QrScreen({Key? key}) : super(key: key);
+  const QrScreen({super.key});
 
   @override
   State<QrScreen> createState() => _QrScreenState();
@@ -27,6 +27,7 @@ class _QrScreenState extends State<QrScreen> {
   bool _isScanning = false;
   bool _isLoading = false;
   bool _lastResultSuccess = false;
+  bool _isStartingCam = false;
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _QrScreenState extends State<QrScreen> {
       detectionSpeed: DetectionSpeed.normal,
       facing: CameraFacing.back,
       torchEnabled: false,
-      autoStart: !kIsWeb,
+      autoStart: !kIsWeb, // Don't auto-start on web for PWA compatibility
       formats: const [BarcodeFormat.qrCode],
       returnImage: false,
     );
@@ -77,18 +78,54 @@ class _QrScreenState extends State<QrScreen> {
   }
 
   Future<void> _toggleScan() async {
+    if (_isStartingCam) return; // prevent re-entry while initializing
     if (_isScanning) {
-      await _controller.stop();
+      try {
+        setState(() => _isStartingCam = true);
+        await _controller.stop();
+        setState(() => _isScanning = false);
+      } finally {
+        setState(() => _isStartingCam = false);
+      }
     } else {
-      await _controller.start();
+      try {
+        setState(() => _isStartingCam = true);
+        await _controller.start();
+        setState(() => _isScanning = true);
+      } catch (e) {
+        if (mounted) {
+          String errorMessage = 'Failed to start camera';
+          if (kIsWeb) {
+            if (e.toString().contains('Permission')) {
+              errorMessage =
+                  'Camera permission denied. Please allow camera access and try again.';
+            } else if (e.toString().contains('NotFound') ||
+                e.toString().contains('not found')) {
+              errorMessage =
+                  'No camera found. Please check your device has a camera.';
+            } else {
+              errorMessage =
+                  'Camera not available. Make sure you\'re using HTTPS.';
+            }
+          }
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 4),
+            ),
+          );
+        }
+      } finally {
+        setState(() => _isStartingCam = false);
+      }
     }
-    setState(() => _isScanning = !_isScanning);
   }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      header: QrHeader(),
+      header: const QrHeader(),
       body: QrBody(
         controller: _controller,
         onDetect: (value, barcode, args) async {
@@ -99,6 +136,8 @@ class _QrScreenState extends State<QrScreen> {
         },
         onScan: _toggleScan,
         isLoading: _isLoading,
+        isScanning: _isScanning,
+        isStartingCam: _isStartingCam,
       ),
     );
   }
@@ -108,7 +147,7 @@ class QrHeader implements Header {
   const QrHeader({Key? key});
   @override
   Widget build(BuildContext context) {
-    return HeaderWidget(
+    return const HeaderWidget(
       title: 'QR Validator',
       trailing: Icon(
         FIcons.logOut,
@@ -125,11 +164,22 @@ class QrBody implements Body {
     required this.onDetect,
     required this.onScan,
     required this.isLoading,
+    required this.isScanning,
+    required this.isStartingCam,
   });
   final MobileScannerController controller;
   final void Function(String, Barcode, BarcodeCapture) onDetect;
   final VoidCallback onScan;
   final bool isLoading;
+  final bool isScanning;
+  final bool isStartingCam;
+
+  String _getButtonText() {
+    if (isLoading) return 'Processing...';
+    if (isStartingCam) return 'Starting Camera...';
+    if (isScanning) return 'Stop Scanning';
+    return kIsWeb ? 'Start Camera & Scan' : 'Scan QR Code';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,14 +206,14 @@ class QrBody implements Body {
                         startPaused: false,
                         showControls: false,
                         onDetect: onDetect,
-                        overlay: QrOverlayConfig(
+                        overlay: const QrOverlayConfig(
                           shape: QrFrameShape.square,
                           cornerRadius: 0,
                           borderWidth: 3,
                           borderColor: AppColors.primary,
-                          maskColor: Colors.white,
+                          maskColor: !kIsWeb ? Colors.white : Color(0x88000000),
                           frameSizeFraction: 0.72,
-                          framePadding: const EdgeInsets.only(),
+                          framePadding: EdgeInsets.only(),
                           drawCornerEdges: true,
                           cornerEdgeLength: 32,
                           showInnerBox: true,
@@ -178,12 +228,12 @@ class QrBody implements Body {
                     ),
                   ),
                 ),
-                AppSpacing.height(20),
+                const AppSpacing.height(20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: AdaptiveButton(
-                    onPressed: onScan,
-                    label: 'Scan QR Code',
+                    onPressed: isLoading || isStartingCam ? null : onScan,
+                    label: _getButtonText(),
                     borderRadius: 24,
                   ),
                 ),
@@ -195,7 +245,7 @@ class QrBody implements Body {
               Container(
                 color: AppColors.white.withValues(alpha: 0.7),
                 alignment: Alignment.center,
-                child: LoadingIndicator(
+                child: const LoadingIndicator(
                   type: LoadingIndicatorType.circle,
                   size: 80,
                   strokeWidth: 3,

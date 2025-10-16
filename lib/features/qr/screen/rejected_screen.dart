@@ -12,11 +12,11 @@ import 'package:modn/shared/widgets/header_widget.dart';
 import '../../../core/routes/app_navigators.dart';
 
 class RejectedScreen extends StatelessWidget {
-  const RejectedScreen({Key? key}) : super(key: key);
+  const RejectedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return const AppScaffold(
       header: RejectedHeader(),
       body: RejectedBody(),
     );
@@ -32,8 +32,8 @@ class RejectedBody implements Body {
         children: [
           AppSpacing.height(context.height * 0.1),
           SvgPicture.asset(AppSvgAssets.failedIcon),
-          AppSpacing.height(20),
-          Text(
+          const AppSpacing.height(20),
+          const Text(
             'Access Denied',
             style: TextStyle(
               fontSize: 24,
@@ -41,8 +41,8 @@ class RejectedBody implements Body {
               color: AppColors.primaryDark,
             ),
           ),
-          AppSpacing.height(20),
-          Text(
+          const AppSpacing.height(20),
+          const Text(
             'Invalid or already used ticket',
             style: TextStyle(
               fontSize: 16,
@@ -50,7 +50,7 @@ class RejectedBody implements Body {
               color: AppColors.primaryDark,
             ),
           ),
-          AppSpacing.height(50),
+          const AppSpacing.height(50),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: Column(
@@ -62,7 +62,7 @@ class RejectedBody implements Body {
                   label: 'Scan next ticket',
                   borderRadius: 24,
                 ),
-                AppSpacing.height(20),
+                const AppSpacing.height(20),
                 AdaptiveButton(
                   onPressed: () {
                     context.go(AppNavigations.event);
@@ -84,7 +84,7 @@ class RejectedHeader implements Header {
   const RejectedHeader({Key? key});
   @override
   Widget build(BuildContext context) {
-    return HeaderWidget(
+    return const HeaderWidget(
       title: 'Rejected',
     );
   }

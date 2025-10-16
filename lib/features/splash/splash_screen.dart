@@ -9,16 +9,18 @@ import '../../core/utils/app_assets.dart';
 import '../../core/utils/app_system_ui.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     AppSystemUi.setSystemUIWithoutContext(isDark: true);
+    final size = MediaQuery.of(context).size.width;
+    print(size);
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Image.asset(AppAssets.bg, fit: BoxFit.cover),
+          Image.asset(AppAssets.bg, fit: BoxFit.fill),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -27,8 +29,8 @@ class SplashScreen extends StatelessWidget {
                 AppSvgAssets.logoWhite,
                 fit: BoxFit.cover,
               ),
-              AppSpacing.height(24),
-              Text(
+              const AppSpacing.height(24),
+              const Text(
                 'Modn',
                 style: TextStyle(
                   fontSize: 40,
@@ -36,9 +38,9 @@ class SplashScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              AppSpacing.height(24),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 48),
+              const AppSpacing.height(24),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
                   'Fast, secure ticket validation for event staff',
                   textAlign: TextAlign.center,
@@ -49,7 +51,7 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              AppSpacing.height(32),
+              const AppSpacing.height(32),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48),
                 child: AdaptiveButton(

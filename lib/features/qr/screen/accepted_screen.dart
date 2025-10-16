@@ -12,11 +12,11 @@ import 'package:modn/shared/widgets/header_widget.dart';
 import '../../../core/widgets/app_spacing.dart';
 
 class AcceptedScreen extends StatelessWidget {
-  const AcceptedScreen({Key? key}) : super(key: key);
+  const AcceptedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
+    return const AppScaffold(
       header: AcceptedHeader(),
       body: AcceptedBody(),
     );
@@ -27,7 +27,7 @@ class AcceptedHeader implements Header {
   const AcceptedHeader({Key? key});
   @override
   Widget build(BuildContext context) {
-    return HeaderWidget(
+    return const HeaderWidget(
       title: 'Accepted',
     );
   }
@@ -42,8 +42,8 @@ class AcceptedBody implements Body {
         children: [
           AppSpacing.height(context.height * 0.1),
           SvgPicture.asset(AppSvgAssets.successIcon),
-          AppSpacing.height(20),
-          Text(
+          const AppSpacing.height(20),
+          const Text(
             'Access Granted',
             style: TextStyle(
               fontSize: 24,
@@ -51,16 +51,16 @@ class AcceptedBody implements Body {
               color: AppColors.primaryDark,
             ),
           ),
-          AppSpacing.height(20),
+          const AppSpacing.height(20),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             margin: const EdgeInsets.symmetric(horizontal: 24),
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Color(0xFF28B3BA).withValues(alpha: 0.1),
+              color: const Color(0xFF28B3BA).withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(24),
             ),
-            child: Column(
+            child: const Column(
               children: [
                 Text(
                   'Guest Information',
@@ -100,7 +100,7 @@ class AcceptedBody implements Body {
               ],
             ),
           ),
-          AppSpacing.height(20),
+          const AppSpacing.height(20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
             child: Column(
@@ -112,7 +112,7 @@ class AcceptedBody implements Body {
                   label: 'Scan next ticket',
                   borderRadius: 24,
                 ),
-                AppSpacing.height(20),
+                const AppSpacing.height(20),
                 AdaptiveButton(
                   onPressed: () {
                     context.go(AppNavigations.event);

@@ -294,7 +294,7 @@ class _DefaultRefreshIndicatorState extends State<DefaultRefreshIndicator> {
         borderRadius: BorderRadius.circular(14),
         boxShadow: kElevationToShadow[2],
         border: Border.all(
-          color: Theme.of(context).dividerColor.withOpacity(0.4),
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.4),
         ),
       ),
       child: AnimatedSwitcher(
@@ -649,6 +649,7 @@ class RefreshTriggerState extends State<RefreshTrigger>
   }
 }
 
+// ignore: unintended_html_in_doc_comment
 /// A tiny helper similar to "AnimatedValueBuilder.animation" that exposes an Animation<double>.
 class _AnimatedValueBuilder extends StatefulWidget {
   final double value;
