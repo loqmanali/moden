@@ -88,7 +88,7 @@ class MyApp extends StatelessWidget {
           if (kIsWeb) {
             return LayoutBuilder(
               builder: (context, constraints) {
-                const double targetWidth = 361;
+                const double targetWidth = 450;
                 return Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(

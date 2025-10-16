@@ -25,11 +25,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="modn">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  
+
   <!-- Camera permissions for QR scanning -->
   <meta name="camera" content="*">
   <meta name="permissions-policy" content="camera=*">
-  
+
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
@@ -41,7 +41,7 @@
   <meta name="theme-color" content="#ffffff">
 
   <script>
-    const serviceWorkerVersion = {{flutter_service_worker_version}};
+    const serviceWorkerVersion = "{{flutter_service_worker_version}}";
 
     window.addEventListener('load', function () {
       if ('serviceWorker' in navigator) {
@@ -55,6 +55,8 @@
   </script>
 </head>
 <body>
+  <!-- Modn Preloader -->
+  <script src="preloader.js"></script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
