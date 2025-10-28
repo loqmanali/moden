@@ -7,33 +7,38 @@ part 'network_exceptions.freezed.dart';
 class NetworkExceptions with _$NetworkExceptions {
   const factory NetworkExceptions.requestCancelled() = RequestCancelled;
 
-  const factory NetworkExceptions.unauthorizedRequest() = UnauthorizedRequest;
+  const factory NetworkExceptions.unauthorizedRequest({String? message}) =
+      UnauthorizedRequest;
 
-  const factory NetworkExceptions.badRequest() = BadRequest;
+  const factory NetworkExceptions.badRequest({String? message}) = BadRequest;
 
   const factory NetworkExceptions.forbidden() = Forbidden;
 
-  const factory NetworkExceptions.forbiddenRequest() = ForbiddenRequest;
+  const factory NetworkExceptions.forbiddenRequest({String? message}) =
+      ForbiddenRequest;
 
-  const factory NetworkExceptions.notFound() = NotFound;
+  const factory NetworkExceptions.notFound({String? message}) = NotFound;
 
   const factory NetworkExceptions.methodNotAllowed() = MethodNotAllowed;
 
   const factory NetworkExceptions.notAcceptable() = NotAcceptable;
 
-  const factory NetworkExceptions.requestTimeout() = RequestTimeout;
+  const factory NetworkExceptions.requestTimeout({String? message}) =
+      RequestTimeout;
 
   const factory NetworkExceptions.receiveTimeout() = ReceiveTimeout;
 
   const factory NetworkExceptions.sendTimeout() = SendTimeout;
 
-  const factory NetworkExceptions.conflict() = Conflict;
+  const factory NetworkExceptions.conflict({String? message}) = Conflict;
 
-  const factory NetworkExceptions.internalServerError() = InternalServerError;
+  const factory NetworkExceptions.internalServerError({String? message}) =
+      InternalServerError;
 
   const factory NetworkExceptions.notImplemented() = NotImplemented;
 
-  const factory NetworkExceptions.serviceUnavailable() = ServiceUnavailable;
+  const factory NetworkExceptions.serviceUnavailable({String? message}) =
+      ServiceUnavailable;
 
   const factory NetworkExceptions.noInternetConnection() = NoInternetConnection;
 
@@ -55,20 +60,21 @@ class NetworkExceptions with _$NetworkExceptions {
       requestCancelled: () {
         errorMessage = 'Request was cancelled';
       },
-      unauthorizedRequest: () {
-        errorMessage = 'Unauthorized request';
+      unauthorizedRequest: (String? message) {
+        errorMessage = message ?? 'Unauthorized request';
       },
-      badRequest: () {
-        errorMessage = 'Bad request';
+      badRequest: (String? message) {
+        errorMessage = message ?? 'Bad request';
       },
       forbidden: () {
         errorMessage = 'Forbidden';
       },
-      forbiddenRequest: () {
-        errorMessage = 'Forbidden request';
+      forbiddenRequest: (String? message) {
+        errorMessage = message ?? 'Forbidden request';
       },
-      notFound: () {
-        errorMessage = 'The requested resource could not be found';
+      notFound: (String? message) {
+        errorMessage =
+            message ?? 'The requested resource could not be found';
       },
       methodNotAllowed: () {
         errorMessage = 'Method not allowed';
@@ -76,8 +82,8 @@ class NetworkExceptions with _$NetworkExceptions {
       notAcceptable: () {
         errorMessage = 'The request is not acceptable';
       },
-      requestTimeout: () {
-        errorMessage = 'Request timeout';
+      requestTimeout: (String? message) {
+        errorMessage = message ?? 'Request timeout';
       },
       receiveTimeout: () {
         errorMessage = 'Receive timeout';
@@ -85,17 +91,17 @@ class NetworkExceptions with _$NetworkExceptions {
       sendTimeout: () {
         errorMessage = 'Send timeout';
       },
-      conflict: () {
-        errorMessage = 'Resource conflict';
+      conflict: (String? message) {
+        errorMessage = message ?? 'Resource conflict';
       },
-      internalServerError: () {
-        errorMessage = 'Internal server error';
+      internalServerError: (String? message) {
+        errorMessage = message ?? 'Internal server error';
       },
       notImplemented: () {
         errorMessage = 'Not implemented';
       },
-      serviceUnavailable: () {
-        errorMessage = 'Service unavailable';
+      serviceUnavailable: (String? message) {
+        errorMessage = message ?? 'Service unavailable';
       },
       noInternetConnection: () {
         errorMessage = 'No internet connection';

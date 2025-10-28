@@ -2,20 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modn/core/routes/app_navigators.dart';
+import 'package:modn/core/services/di.dart';
 import 'package:modn/core/widgets/adaptive_button.dart';
 import 'package:modn/core/widgets/app_spacing.dart';
+import 'package:modn/features/authentication/cubit/login_cubit.dart';
 
+import '../../core/localization/localization.dart';
 import '../../core/utils/app_assets.dart';
 import '../../core/utils/app_system_ui.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAutoLogin();
+  }
+
+  Future<void> _checkAutoLogin() async {
+    // Wait a bit for splash animation
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (!mounted) return;
+
+    // Check if auto-login is enabled and user is logged in
+    final loginCubit = di<LoginCubit>();
+    final isLoggedIn = await loginCubit.checkAutoLogin();
+
+    if (!mounted) return;
+
+    if (isLoggedIn) {
+      // User is already logged in, navigate to main screen
+      context.go(AppNavigations.event);
+    }
+    // Otherwise, stay on splash screen and let user click "Get Started"
+  }
 
   @override
   Widget build(BuildContext context) {
     AppSystemUi.setSystemUIWithoutContext(isDark: true);
-    final size = MediaQuery.of(context).size.width;
-    print(size);
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -29,22 +60,23 @@ class SplashScreen extends StatelessWidget {
                 AppSvgAssets.logoWhite,
                 fit: BoxFit.cover,
               ),
-              const AppSpacing.height(24),
-              const Text(
-                'Modn',
-                style: TextStyle(
-                  fontSize: 40,
+              const AppSpacing.height(48),
+              Text(
+                L10n.appTitle,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              const AppSpacing.height(24),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 48),
+              const AppSpacing.height(18),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 48),
                 child: Text(
-                  'Fast, secure ticket validation for event staff',
+                  L10n.appDescription,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
@@ -59,7 +91,7 @@ class SplashScreen extends StatelessWidget {
                   onPressed: () {
                     context.go(AppNavigations.login);
                   },
-                  label: 'Get Started',
+                  label: L10n.getStarted,
                   borderRadius: 24,
                 ),
               ),

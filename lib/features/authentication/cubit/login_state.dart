@@ -13,10 +13,24 @@ class LoginLoadingState extends LoginState {
 }
 
 class LoginSuccessState extends LoginState {
-  const LoginSuccessState();
+  final AuthenticationModel authentication;
+  const LoginSuccessState({required this.authentication});
 }
 
 class LoginErrorState extends LoginState {
   final String error;
   const LoginErrorState({required this.error});
+}
+
+class LogoutLoadingState extends LoginState {
+  const LogoutLoadingState();
+}
+
+class LogoutSuccessState extends LoginState {
+  const LogoutSuccessState();
+}
+
+class LogoutErrorState extends LoginState {
+  final String error;
+  const LogoutErrorState({required this.error});
 }

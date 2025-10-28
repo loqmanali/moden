@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:modn/core/services/di.dart';
+import 'package:modn/features/authentication/cubit/login_cubit.dart';
 import 'package:modn/features/events/screen/events_screen.dart';
 import 'package:modn/features/qr/screen/accepted_screen.dart';
 import 'package:modn/features/qr/screen/qr_screen.dart';
@@ -54,7 +57,10 @@ final router = GoRouter(
       name: AppNavigations.login,
       path: AppNavigations.login,
       builder: (context, state) {
-        return const LoginScreen();
+        return BlocProvider(
+          create: (context) => di<LoginCubit>(),
+          child: const LoginScreen(),
+        );
       },
     ),
 

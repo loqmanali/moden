@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:modn/core/widgets/app_spacing.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modn/core/localization/bloc/locale_bloc.dart';
+import 'package:modn/core/localization/widgets/language_selector.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({
@@ -28,8 +30,8 @@ class HeaderWidget extends StatelessWidget {
   final String? title;
   final TextStyle? titleStyle;
   final Widget? child;
-  final bool centerTitle; // if true, aligns title/child vertically centered
-  final Widget? trailing; // optional widget on the opposite end
+  final bool centerTitle;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class HeaderWidget extends StatelessWidget {
                 child: Align(
                   alignment:
                       centerTitle ? Alignment.centerLeft : Alignment.topLeft,
-                  child: _buildHeaderContent(textTheme),
+                  child: _buildHeaderContent(textTheme, context),
                 ),
               ),
           ],
@@ -69,7 +71,7 @@ class HeaderWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderContent(TextTheme textTheme) {
+  Widget _buildHeaderContent(TextTheme textTheme, BuildContext context) {
     final content = child ??
         Text(
           title ?? '',
@@ -78,31 +80,50 @@ class HeaderWidget extends StatelessWidget {
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 fontSize: 28,
-                // height: 2.5,
               ),
         );
 
-    if (trailing == null) return content;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment:
+          centerTitle ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [
+        Flexible(child: content),
+        const SizedBox(width: 12),
+        _RightControls(
+          trailing: trailing,
+          onLanguageChanged: (value) {
+            context
+                .read<LocaleBloc>()
+                .add(ChangeLocaleEvent(value.languageCode));
+          },
+        ),
+      ],
+    );
+  }
+}
 
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const AppSpacing.height(25),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: centerTitle
-                ? CrossAxisAlignment.center
-                : CrossAxisAlignment.start,
-            children: [
-              Flexible(child: content),
-              const SizedBox(width: 12),
-              trailing!,
-            ],
-          ),
+class _RightControls extends StatelessWidget {
+  const _RightControls({
+    required this.onLanguageChanged,
+    this.trailing,
+  });
+
+  final ValueChanged<Locale> onLanguageChanged;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        LanguageToggle(onChanged: onLanguageChanged),
+        if (trailing != null) ...[
+          const SizedBox(width: 8),
+          trailing!,
         ],
-      ),
+      ],
     );
   }
 }

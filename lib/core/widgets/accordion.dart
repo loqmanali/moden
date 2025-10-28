@@ -167,7 +167,7 @@ class _AccordionPanel extends HookWidget {
             RotationTransition(
               turns: Tween<double>(begin: 0, end: 0.5).animate(animation),
               // child: SvgPicture.asset(AppSvgIcons.accordionIcon),
-              child: Icon(Icons.arrow_downward),
+              child: const Icon(Icons.arrow_downward),
             ),
           ],
         ),

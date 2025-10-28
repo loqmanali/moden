@@ -6,11 +6,11 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:modn/core/design_system/app_colors/app_colors.dart';
 import 'package:modn/core/widgets/adaptive_button.dart';
 import 'package:modn/core/widgets/adaptive_loading.dart';
+import 'package:modn/core/widgets/app_scaffold.dart';
 import 'package:modn/core/widgets/app_spacing.dart';
+import 'package:modn/core/widgets/body_widget.dart';
+import 'package:modn/core/widgets/header_widget.dart';
 import 'package:modn/features/qr/widgets/adaptive_qr_scanner.dart';
-import 'package:modn/shared/widgets/app_scaffold.dart';
-import 'package:modn/shared/widgets/body_widget.dart';
-import 'package:modn/shared/widgets/header_widget.dart';
 
 import '../../../core/routes/app_navigators.dart';
 

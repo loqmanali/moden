@@ -1,42 +1,83 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:forui/forui.dart';
+import 'package:modn/core/design_system/theme/moden_theme.dart';
 import 'package:modn/core/localization/bloc/locale_bloc.dart';
+import 'package:modn/core/routes/app_navigators.dart';
 
-import 'package:modn/core/design_system/theme_extension/app_theme_extension.dart';
-import 'package:modn/core/design_system/theme_extension/theme_manager.dart';
-
-import 'package:modn/core/localization/generated/app_localizations.dart';
-
-import 'package:modn/app/app_flutter_bunny.dart';
+import '../core/localization/generated/app_localizations.dart';
+import '../core/localization/widgets/l10n_listener.dart';
+import 'app_wrapper.dart';
 
 /// Main App widget that configures the application using BLoC pattern.
 class App extends StatelessWidget {
   /// Creates a new App instance.
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => ThemeCubit()),
-        BlocProvider(create: (_) => LocaleBloc()),
-      ],
-      child: Builder(
-        builder: (context) {
-          return MaterialApp(
-            title: 'modn',
+    return AppWrapper(
+      child: BlocProvider(
+        create: (context) => LocaleBloc(),
+        child: Builder(
+          builder: (context) => MaterialApp.router(
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.light,
-            darkTheme: AppTheme.dark,
-            themeMode:
-                context.watch<ThemeCubit>().state.themeMode.toThemeMode(),
+            title: 'Moden',
+            theme: ModenTheme.lightEx(),
+            darkTheme: ModenTheme.darkEx(),
+            themeMode: ThemeMode.light,
+            scrollBehavior: NoStretchScrollBehavior(),
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             locale: context.watch<LocaleBloc>().state.locale,
-            home: const FlutterBunnyScreen(),
-          );
-        },
+            builder: (context, child) {
+              final brightness =
+                  MediaQuery.maybeOf(context)?.platformBrightness ??
+                      Brightness.light;
+              final fTheme = brightness == Brightness.dark
+                  ? ModenTheme.dark
+                  : ModenTheme.light;
+              final baseChild = L10nListener(
+                child: FAnimatedTheme(
+                  data: fTheme,
+                  child: child!,
+                ),
+              );
+
+              if (kIsWeb) {
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    const double targetWidth = 450;
+                    return Align(
+                      alignment: Alignment.topCenter,
+                      child: SizedBox(
+                        width: targetWidth,
+                        height: constraints.maxHeight,
+                        child: baseChild,
+                      ),
+                    );
+                  },
+                );
+              }
+
+              return baseChild;
+            },
+            routerConfig: router,
+          ),
+        ),
       ),
     );
+  }
+}
+
+class NoStretchScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    return child;
   }
 }

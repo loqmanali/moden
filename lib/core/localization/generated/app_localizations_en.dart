@@ -9,32 +9,13 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'My App';
+  String get appTitle => 'Medical Cities Program';
 
   @override
-  String get welcome => 'Welcome';
+  String get appDescription => 'Fast, secure ticket validation for event staff';
 
   @override
-  String hello(String name) {
-    return 'Hello, $name';
-  }
-
-  @override
-  String counter(int count) {
-    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
-      locale: localeName,
-    );
-    final String countString = countNumberFormat.format(count);
-
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$countString items',
-      one: '1 item',
-      zero: 'No items',
-    );
-    return '$_temp0';
-  }
+  String get getStarted => 'Get Started';
 
   @override
   String get signIn => 'Sign In';
@@ -43,53 +24,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUp => 'Sign Up';
 
   @override
-  String get email => 'Email';
+  String get email => 'E-mail';
+
+  @override
+  String get emailPlaceholder => 'Enter your email';
 
   @override
   String get password => 'Password';
 
   @override
-  String get forgotPassword => 'Forgot Password?';
+  String get passwordPlaceholder => 'Enter your password';
 
   @override
-  String get settings => 'Settings';
+  String get pleaseEnterYourEmail => 'Please Enter Your Email';
 
   @override
-  String get language => 'Language';
+  String get pleaseEnterYourPassword => 'Please Enter Your Password';
 
   @override
-  String get theme => 'Theme';
+  String get pleaseEnterValidEmail => 'Please Enter Valid Email';
 
   @override
-  String get darkMode => 'Dark Mode';
+  String get passwordMustBeAtLeast6Characters =>
+      'Password Must Be At Least 6 Characters';
 
   @override
-  String get lightMode => 'Light Mode';
-
-  @override
-  String get systemMode => 'System Mode';
-
-  @override
-  String get notifications => 'Notifications';
-
-  @override
-  String get notificationSent => 'Notification sent';
-
-  @override
-  String get enableNotifications => 'Enable Notifications';
-
-  @override
-  String get receiveNotifications => 'Receive push notifications';
-
-  @override
-  String get sendTestNotification => 'Send Test Notification';
-
-  @override
-  String get deviceToken => 'Device Token';
-
-  @override
-  String get loading => 'Loading...';
-
-  @override
-  String get notAvailable => 'Not available';
+  String get events => 'Events';
 }

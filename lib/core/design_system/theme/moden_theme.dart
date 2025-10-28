@@ -12,7 +12,7 @@ class ModenTheme {
   static FThemeData get dark => _darkTheme;
 
   static final FThemeData _lightTheme = FThemeData(
-    colors: FColors(
+    colors: const FColors(
       brightness: Brightness.light,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       barrier: Color(0x33000000),
@@ -30,7 +30,7 @@ class ModenTheme {
       errorForeground: AppColors.background,
       border: AppColors.borderColor,
     ),
-    typography: FTypography(
+    typography: const FTypography(
       base: TextStyle(
         color: AppColors.text,
         fontFamily: 'Inter',
@@ -56,7 +56,7 @@ class ModenTheme {
   );
 
   static final FThemeData _darkTheme = FThemeData(
-    colors: FColors(
+    colors: const FColors(
       brightness: Brightness.dark,
       systemOverlayStyle: SystemUiOverlayStyle.light,
       barrier: Color(0x66FFFFFF),
@@ -74,7 +74,7 @@ class ModenTheme {
       errorForeground: AppColors.backgroundDark,
       border: AppColors.borderColor,
     ),
-    typography: FTypography(
+    typography: const FTypography(
       base: TextStyle(
         color: AppColors.textDark,
         fontFamily: 'Inter',

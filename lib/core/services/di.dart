@@ -1,14 +1,33 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:modn/core/network/api_client.dart';
-import 'package:modn/core/network/api_constants.dart';
+import 'package:modn/core/network/api_endpoint.dart';
 import 'package:modn/core/network/network_info.dart';
+import 'package:modn/core/storage/cache_helper.dart';
+import 'package:modn/core/storage/cache_helper_factory.dart';
+import 'package:modn/core/storage/local_storage_repository.dart';
 import 'package:modn/features/authentication/cubit/login_cubit.dart';
 import 'package:modn/features/authentication/services/login_service.dart';
 
 final GetIt di = GetIt.instance;
 
-void setupDependencies() {
+/// Setup all app dependencies
+/// Call this before runApp()
+Future<void> setupDependencies() async {
+  // ==================== Storage ====================
+  if (!di.isRegistered<CacheHelper>()) {
+    final cacheHelper = CacheHelperFactory.createAsync();
+    await cacheHelper.init();
+    di.registerSingleton<CacheHelper>(cacheHelper);
+  }
+
+  if (!di.isRegistered<LocalStorageRepository>()) {
+    di.registerSingleton<LocalStorageRepository>(
+      LocalStorageRepository(di<CacheHelper>()),
+    );
+  }
+
+  // ==================== Network ====================
   if (!di.isRegistered<InternetConnectionChecker>()) {
     di.registerLazySingleton<InternetConnectionChecker>(
       () => InternetConnectionChecker.instance,
@@ -24,12 +43,12 @@ void setupDependencies() {
   if (!di.isRegistered<ApiClient>()) {
     di.registerLazySingleton<ApiClient>(
       () => ApiClient(
-        baseUrl: ApiConstants.baseUrl,
-        timeout: ApiConstants.timeout,
+        timeout: ApiEndpoint.timeout,
       ),
     );
   }
 
+  // ==================== Authentication ====================
   if (!di.isRegistered<LoginService>()) {
     di.registerLazySingleton<LoginService>(
       () => LoginService(apiClient: di<ApiClient>()),
@@ -38,7 +57,10 @@ void setupDependencies() {
 
   if (!di.isRegistered<LoginCubit>()) {
     di.registerFactory<LoginCubit>(
-      () => LoginCubit(loginService: di<LoginService>()),
+      () => LoginCubit(
+        loginService: di<LoginService>(),
+        storageRepository: di<LocalStorageRepository>(),
+      ),
     );
   }
 }

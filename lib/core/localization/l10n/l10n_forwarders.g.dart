@@ -10,45 +10,43 @@ part of '../localization.dart';
 class L10n {
   /// The current app localizations instance
   static AppLocalizations? _current;
+  static Locale? _currentLocale;
 
   /// Initialize the global localization instance
   static void init(BuildContext context) {
     _current = AppLocalizations.of(context);
+    _currentLocale = Localizations.localeOf(context);
   }
+
+  static String get currentLanguageCode => _currentLocale?.languageCode ?? 'en';
+
+  static bool get isArabic => currentLanguageCode == 'ar';
+
+  static bool get isEnglish => currentLanguageCode == 'en';
 
   /// Get the current app localizations instance
   static AppLocalizations get _tr {
     if (_current == null) {
-      throw Exception(
-          'L10n used before init. Call L10n.init(context) after Localizations load.');
+      throw Exception('L10n used before init. Call L10n.init(context) after Localizations load.');
     }
     return _current!;
   }
 
   // Getters
   static String get appTitle => _tr.appTitle;
-  static String get welcome => _tr.welcome;
+  static String get appDescription => _tr.appDescription;
+  static String get getStarted => _tr.getStarted;
   static String get signIn => _tr.signIn;
   static String get signUp => _tr.signUp;
   static String get email => _tr.email;
+  static String get emailPlaceholder => _tr.emailPlaceholder;
   static String get password => _tr.password;
-  static String get forgotPassword => _tr.forgotPassword;
-  static String get settings => _tr.settings;
-  static String get language => _tr.language;
-  static String get theme => _tr.theme;
-  static String get darkMode => _tr.darkMode;
-  static String get lightMode => _tr.lightMode;
-  static String get systemMode => _tr.systemMode;
-  static String get notifications => _tr.notifications;
-  static String get notificationSent => _tr.notificationSent;
-  static String get enableNotifications => _tr.enableNotifications;
-  static String get receiveNotifications => _tr.receiveNotifications;
-  static String get sendTestNotification => _tr.sendTestNotification;
-  static String get deviceToken => _tr.deviceToken;
-  static String get loading => _tr.loading;
-  static String get notAvailable => _tr.notAvailable;
+  static String get passwordPlaceholder => _tr.passwordPlaceholder;
+  static String get pleaseEnterYourEmail => _tr.pleaseEnterYourEmail;
+  static String get pleaseEnterYourPassword => _tr.pleaseEnterYourPassword;
+  static String get pleaseEnterValidEmail => _tr.pleaseEnterValidEmail;
+  static String get passwordMustBeAtLeast6Characters => _tr.passwordMustBeAtLeast6Characters;
+  static String get events => _tr.events;
 
   // Methods
-  static String hello(String name) => _tr.hello(name);
-  static String counter(int count) => _tr.counter(count);
 }

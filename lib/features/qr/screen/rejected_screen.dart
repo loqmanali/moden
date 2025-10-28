@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:modn/core/design_system/app_colors/app_colors.dart';
 import 'package:modn/core/utils/app_assets.dart';
 import 'package:modn/core/widgets/adaptive_button.dart';
+import 'package:modn/core/widgets/app_scaffold.dart';
 import 'package:modn/core/widgets/app_spacing.dart';
-import 'package:modn/shared/widgets/app_scaffold.dart';
-import 'package:modn/shared/widgets/body_widget.dart';
-import 'package:modn/shared/widgets/header_widget.dart';
+import 'package:modn/core/widgets/body_widget.dart';
+import 'package:modn/core/widgets/header_widget.dart';
 
 import '../../../core/routes/app_navigators.dart';
 

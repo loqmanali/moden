@@ -84,7 +84,7 @@ class EventCard extends StatelessWidget {
                 onPressed: onStartScanning,
                 label: 'Start Scanning',
                 borderRadius: 24,
-                sizeSpec: ButtonSizeSpec(
+                sizeSpec: const ButtonSizeSpec(
                   height: 34,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
@@ -155,12 +155,13 @@ class _CheckinProgress extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Row(
         children: [
-          Icon(Icons.group_outlined, size: 18, color: AppColors.textSecondary),
+          const Icon(Icons.group_outlined,
+              size: 18, color: AppColors.textSecondary),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               '$checkedIn / $capacity checked in',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 10,
                 color: AppColors.textSecondary,
                 fontWeight: FontWeight.w600,
@@ -169,7 +170,7 @@ class _CheckinProgress extends StatelessWidget {
           ),
           Text(
             percentLabel,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 13,
               color: AppColors.primaryLight,
               fontWeight: FontWeight.w500,

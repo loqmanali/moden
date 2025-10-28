@@ -5,8 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
 import 'app_localizations_en.dart';
-import 'app_localizations_es.dart';
 
 // ignore_for_file: type=lint
 
@@ -94,33 +94,27 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('es')
+    Locale('ar'),
+    Locale('en')
   ];
 
   /// The title of the application
   ///
   /// In en, this message translates to:
-  /// **'My App'**
+  /// **'Medical Cities Program'**
   String get appTitle;
 
-  /// Welcome message
+  /// The description of the application
   ///
   /// In en, this message translates to:
-  /// **'Welcome'**
-  String get welcome;
+  /// **'Fast, secure ticket validation for event staff'**
+  String get appDescription;
 
-  /// A welcome message with a name parameter
+  /// Get started button text
   ///
   /// In en, this message translates to:
-  /// **'Hello, {name}'**
-  String hello(String name);
-
-  /// A plural message for counter items
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =0{No items} =1{1 item} other{{count} items}}'**
-  String counter(int count);
+  /// **'Get Started'**
+  String get getStarted;
 
   /// Sign in button text
   ///
@@ -137,8 +131,14 @@ abstract class AppLocalizations {
   /// Email field label
   ///
   /// In en, this message translates to:
-  /// **'Email'**
+  /// **'E-mail'**
   String get email;
+
+  /// Email placeholder
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get emailPlaceholder;
 
   /// Password field label
   ///
@@ -146,95 +146,41 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get password;
 
-  /// Forgot password button text
+  /// Password placeholder
   ///
   /// In en, this message translates to:
-  /// **'Forgot Password?'**
-  String get forgotPassword;
+  /// **'Enter your password'**
+  String get passwordPlaceholder;
 
-  /// Settings menu item
+  /// Please Enter Your Email
   ///
   /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
+  /// **'Please Enter Your Email'**
+  String get pleaseEnterYourEmail;
 
-  /// Language setting
+  /// Please Enter Your Password
   ///
   /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
+  /// **'Please Enter Your Password'**
+  String get pleaseEnterYourPassword;
 
-  /// Theme setting
+  /// Please Enter Valid Email
   ///
   /// In en, this message translates to:
-  /// **'Theme'**
-  String get theme;
+  /// **'Please Enter Valid Email'**
+  String get pleaseEnterValidEmail;
 
-  /// Dark mode setting
+  /// Password Must Be At Least 6 Characters
   ///
   /// In en, this message translates to:
-  /// **'Dark Mode'**
-  String get darkMode;
+  /// **'Password Must Be At Least 6 Characters'**
+  String get passwordMustBeAtLeast6Characters;
 
-  /// Light mode setting
+  /// Events
   ///
   /// In en, this message translates to:
-  /// **'Light Mode'**
-  String get lightMode;
-
-  /// System theme mode setting
-  ///
-  /// In en, this message translates to:
-  /// **'System Mode'**
-  String get systemMode;
-
-  /// Notifications title
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifications;
-
-  /// Message shown when notification is sent
-  ///
-  /// In en, this message translates to:
-  /// **'Notification sent'**
-  String get notificationSent;
-
-  /// Switch label for enabling notifications
-  ///
-  /// In en, this message translates to:
-  /// **'Enable Notifications'**
-  String get enableNotifications;
-
-  /// Description for notification switch
-  ///
-  /// In en, this message translates to:
-  /// **'Receive push notifications'**
-  String get receiveNotifications;
-
-  /// Button to send a test notification
-  ///
-  /// In en, this message translates to:
-  /// **'Send Test Notification'**
-  String get sendTestNotification;
-
-  /// Label for device token section
-  ///
-  /// In en, this message translates to:
-  /// **'Device Token'**
-  String get deviceToken;
-
-  /// Loading text
-  ///
-  /// In en, this message translates to:
-  /// **'Loading...'**
-  String get loading;
-
-  /// Text for when a feature is not available
-  ///
-  /// In en, this message translates to:
-  /// **'Not available'**
-  String get notAvailable;
+  /// **'Events'**
+  String get events;
 }
 
 class _AppLocalizationsDelegate
@@ -248,7 +194,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'es'].contains(locale.languageCode);
+      <String>['ar', 'en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -257,10 +203,10 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
     case 'en':
       return AppLocalizationsEn();
-    case 'es':
-      return AppLocalizationsEs();
   }
 
   throw FlutterError(

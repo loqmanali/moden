@@ -1,37 +1,30 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 
-import 'interceptors/auth_interceptor.dart';
-import 'interceptors/logging_interceptor.dart';
-import 'models/api_response.dart';
+import 'api_endpoint.dart';
 import 'exceptions/network_exceptions.dart';
+import 'interceptors/auth_interceptor.dart';
+import 'models/api_response.dart';
 
 /// API client for handling network requests
 class ApiClient {
   late final Dio _dio;
-  
-  /// Base URL for all API requests
-  final String baseUrl;
-  
-  /// Default timeout in milliseconds
   final int timeout;
-  
-  /// Whether to use authentication interceptor
   final bool useAuth;
-  
+
   /// API client constructor
   ApiClient({
-    required this.baseUrl,
     this.timeout = 30000,
     this.useAuth = true,
   }) {
     _initDio();
   }
-  
+
   /// Initialize Dio client with base options and interceptors
   void _initDio() {
     final options = BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: ApiEndpoint.baseUrl,
       connectTimeout: Duration(milliseconds: timeout),
       receiveTimeout: Duration(milliseconds: timeout),
       responseType: ResponseType.json,
@@ -40,17 +33,20 @@ class ApiClient {
         'Accept': 'application/json',
       },
     );
-    
+
     _dio = Dio(options);
-    
+
     // Add interceptors
-    _dio.interceptors.add(LoggingInterceptor());
-    
+    // _dio.interceptors.addAll([
+    //   CustomLoggingInterceptor(),
+    //   RequestsInspectorInterceptor(),
+    // ]);
+
     if (useAuth) {
       _dio.interceptors.add(AuthInterceptor());
     }
   }
-  
+
   /// GET request
   Future<ApiResponse<T>> get<T>(
     String path, {
@@ -67,13 +63,22 @@ class ApiClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
-      
+
+      // Validate that response is JSON, not HTML
+      if (_isHtmlResponse(response)) {
+        return ApiResponse<T>.withError(
+          const NetworkExceptions.defaultError(
+            'Server returned HTML instead of JSON. The API endpoint may be incorrect or the server is not running properly.',
+          ),
+        );
+      }
+
       return ApiResponse<T>.fromResponse(response);
     } catch (e) {
       return ApiResponse<T>.withError(_handleError(e));
     }
   }
-  
+
   /// POST request
   Future<ApiResponse<T>> post<T>(
     String path, {
@@ -94,13 +99,22 @@ class ApiClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      
+
+      // Validate that response is JSON, not HTML
+      if (_isHtmlResponse(response)) {
+        return ApiResponse<T>.withError(
+          const NetworkExceptions.defaultError(
+            'Server returned HTML instead of JSON. The API endpoint may be incorrect or the server is not running properly.',
+          ),
+        );
+      }
+
       return ApiResponse<T>.fromResponse(response);
     } catch (e) {
       return ApiResponse<T>.withError(_handleError(e));
     }
   }
-  
+
   /// PUT request
   Future<ApiResponse<T>> put<T>(
     String path, {
@@ -121,13 +135,22 @@ class ApiClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      
+
+      // Validate that response is JSON, not HTML
+      if (_isHtmlResponse(response)) {
+        return ApiResponse<T>.withError(
+          const NetworkExceptions.defaultError(
+            'Server returned HTML instead of JSON. The API endpoint may be incorrect or the server is not running properly.',
+          ),
+        );
+      }
+
       return ApiResponse<T>.fromResponse(response);
     } catch (e) {
       return ApiResponse<T>.withError(_handleError(e));
     }
   }
-  
+
   /// DELETE request
   Future<ApiResponse<T>> delete<T>(
     String path, {
@@ -144,13 +167,22 @@ class ApiClient {
         options: options,
         cancelToken: cancelToken,
       );
-      
+
+      // Validate that response is JSON, not HTML
+      if (_isHtmlResponse(response)) {
+        return ApiResponse<T>.withError(
+          const NetworkExceptions.defaultError(
+            'Server returned HTML instead of JSON. The API endpoint may be incorrect or the server is not running properly.',
+          ),
+        );
+      }
+
       return ApiResponse<T>.fromResponse(response);
     } catch (e) {
       return ApiResponse<T>.withError(_handleError(e));
     }
   }
-  
+
   /// PATCH request
   Future<ApiResponse<T>> patch<T>(
     String path, {
@@ -171,13 +203,22 @@ class ApiClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      
+
+      // Validate that response is JSON, not HTML
+      if (_isHtmlResponse(response)) {
+        return ApiResponse<T>.withError(
+          const NetworkExceptions.defaultError(
+            'Server returned HTML instead of JSON. The API endpoint may be incorrect or the server is not running properly.',
+          ),
+        );
+      }
+
       return ApiResponse<T>.fromResponse(response);
     } catch (e) {
       return ApiResponse<T>.withError(_handleError(e));
     }
   }
-  
+
   /// Download file
   Future<ApiResponse<String>> download(
     String url,
@@ -196,13 +237,25 @@ class ApiClient {
         deleteOnError: deleteOnError,
         options: options,
       );
-      
+
       return ApiResponse<String>.fromResponse(response, data: savePath);
     } catch (e) {
       return ApiResponse<String>.withError(_handleError(e));
     }
   }
-  
+
+  /// Check if response is HTML instead of JSON
+  bool _isHtmlResponse(Response response) {
+    // Check if response data is a string starting with HTML tags
+    if (response.data is String) {
+      final data = (response.data as String).trim();
+      return data.startsWith('<!DOCTYPE') ||
+          data.startsWith('<html') ||
+          data.startsWith('<HTML');
+    }
+    return false;
+  }
+
   /// Handle all possible errors from Dio
   NetworkExceptions _handleError(dynamic error) {
     if (error is DioException) {
@@ -230,37 +283,100 @@ class ApiClient {
       return const NetworkExceptions.unexpectedError();
     }
   }
-  
+
   /// Handle bad responses with different status codes
   NetworkExceptions _handleBadResponse(DioException error) {
     if (error.response == null) {
       return const NetworkExceptions.unexpectedError();
     }
-    
+
+    // Extract error message from backend response
+    final rawBackendMessage = _extractBackendErrorMessage(error.response!);
+    final effectiveMessage =
+        (rawBackendMessage != null && rawBackendMessage.trim().isNotEmpty)
+            ? rawBackendMessage.trim()
+            : null;
+
     switch (error.response!.statusCode) {
       case 400:
-        return const NetworkExceptions.badRequest();
+        return effectiveMessage != null
+            ? NetworkExceptions.defaultError(effectiveMessage)
+            : const NetworkExceptions.badRequest();
       case 401:
-        return const NetworkExceptions.unauthorizedRequest();
+        return effectiveMessage != null
+            ? NetworkExceptions.defaultError(effectiveMessage)
+            : const NetworkExceptions.unauthorizedRequest();
       case 403:
-        return const NetworkExceptions.forbiddenRequest();
+        return effectiveMessage != null
+            ? NetworkExceptions.defaultError(effectiveMessage)
+            : const NetworkExceptions.forbiddenRequest();
       case 404:
-        return const NetworkExceptions.notFound();
+        return effectiveMessage != null
+            ? NetworkExceptions.defaultError(effectiveMessage)
+            : const NetworkExceptions.notFound();
       case 409:
-        return const NetworkExceptions.conflict();
+        return effectiveMessage != null
+            ? NetworkExceptions.defaultError(effectiveMessage)
+            : const NetworkExceptions.conflict();
       case 408:
-        return const NetworkExceptions.requestTimeout();
+        return effectiveMessage != null
+            ? NetworkExceptions.defaultError(effectiveMessage)
+            : const NetworkExceptions.requestTimeout();
       case 500:
-        return const NetworkExceptions.internalServerError();
+        return effectiveMessage != null
+            ? NetworkExceptions.defaultError(effectiveMessage)
+            : const NetworkExceptions.internalServerError();
       case 503:
-        return const NetworkExceptions.serviceUnavailable();
+        return effectiveMessage != null
+            ? NetworkExceptions.defaultError(effectiveMessage)
+            : const NetworkExceptions.serviceUnavailable();
       default:
         return NetworkExceptions.defaultError(
-          'Error with status code: ${error.response!.statusCode}',
+          effectiveMessage ??
+              'Error with status code: ${error.response!.statusCode}',
         );
     }
   }
-  
+
+  /// Extract error message from backend response
+  /// Backend typically returns: { "error": "code", "message": "description" }
+  String? _extractBackendErrorMessage(Response response) {
+    try {
+      final data = response.data;
+
+      if (data is Map<String, dynamic>) {
+        // Try to get message field first
+        if (data.containsKey('message') && data['message'] != null) {
+          return data['message'].toString();
+        }
+
+        // Try to get error field
+        if (data.containsKey('error') && data['error'] != null) {
+          final error = data['error'];
+          if (error is String) {
+            return error;
+          } else if (error is Map && error.containsKey('message')) {
+            return error['message'].toString();
+          }
+        }
+
+        // Try to get errors array (validation errors)
+        if (data.containsKey('errors') && data['errors'] != null) {
+          final errors = data['errors'];
+          if (errors is List && errors.isNotEmpty) {
+            return errors.first.toString();
+          }
+        }
+      } else if (data is String) {
+        return data;
+      }
+    } catch (e) {
+      // If extraction fails, return null to use default message
+    }
+
+    return null;
+  }
+
   /// Get raw Dio client (use with caution)
   Dio get dio => _dio;
 }

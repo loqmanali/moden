@@ -1,58 +1,58 @@
 {
-  "@@locale": "en",
-  "appTitle": "Medical Cities Program",
+  "@@locale": "ar",
+  "appTitle": "برنامج المدن الطبية",
   "@appTitle": {
     "description": "The title of the application"
   },
-  "appDescription": "Fast, secure ticket validation for event staff",
+  "appDescription": "تحقق سريع وآمن من التذاكر لموظفي الفعاليات",
   "@appDescription": {
     "description": "The description of the application"
   },
-  "getStarted": "Get Started",
+  "getStarted": "ابدأ الآن",
   "@getStarted": {
     "description": "Get started button text"
   },
-  "signIn": "Sign In",
+  "signIn": "تسجيل الدخول",
   "@signIn": {
     "description": "Sign in button text"
   },
-  "signUp": "Sign Up",
+  "signUp": "تسجيل",
   "@signUp": {
     "description": "Sign up button text"
   },
-  "email": "E-mail",
+  "email": "البريد الالكتروني",
   "@email": {
     "description": "Email field label"
   },
-  "emailPlaceholder": "Enter your email",
+  "emailPlaceholder": "أدخل البريد الالكتروني",
   "@emailPlaceholder": {
     "description": "Email placeholder"
   },
-  "password": "Password",
+  "password": "كلمة المرور",
   "@password": {
     "description": "Password field label"
   },
-  "passwordPlaceholder": "Enter your password",
+  "passwordPlaceholder": "أدخل كلمة المرور",
   "@passwordPlaceholder": {
     "description": "Password placeholder"
   },
-  "pleaseEnterYourEmail": "Please Enter Your Email",
+  "pleaseEnterYourEmail": "من فضلك أدخل البريد الالكتروني",
   "@pleaseEnterYourEmail": {
     "description": "Please Enter Your Email"
   },
-  "pleaseEnterYourPassword": "Please Enter Your Password",
+  "pleaseEnterYourPassword": "من فضلك أدخل كلمة المرور",
   "@pleaseEnterYourPassword": {
     "description": "Please Enter Your Password"
   },
-  "pleaseEnterValidEmail": "Please Enter Valid Email",
+  "pleaseEnterValidEmail": "من فضلك أدخل بريد الكتروني صالح",
   "@pleaseEnterValidEmail": {
     "description": "Please Enter Valid Email"
   },
-  "passwordMustBeAtLeast6Characters": "Password Must Be At Least 6 Characters",
+  "passwordMustBeAtLeast6Characters": "كلمة المرور يجب أن تكون على الأقل 6 أحرف",
   "@passwordMustBeAtLeast6Characters": {
     "description": "Password Must Be At Least 6 Characters"
   },
-  "events": "Events",
+  "events": "فعالياتي",
   "@events": {
     "description": "Events"
   }

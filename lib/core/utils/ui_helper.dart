@@ -267,7 +267,7 @@ class UIHelper {
       title: title != null
           ? Text(
               title,
-              style: TextStyle(color: AppColors.primary),
+              style: const TextStyle(color: AppColors.primary),
             )
           : null,
       description: description != null ? Text(description) : null,

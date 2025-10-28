@@ -7,7 +7,7 @@ class LanguageSelector extends StatelessWidget {
   /// Callback when language changes
   final Function(Locale) onChanged;
 
-  const LanguageSelector({Key? key, required this.onChanged}) : super(key: key);
+  const LanguageSelector({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class LanguageSelector extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
-            context.l10n.language,
+            context.l10n.appTitle,
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
@@ -42,7 +42,7 @@ class LanguageSelector extends StatelessWidget {
               }
             },
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -53,7 +53,7 @@ class LanguageToggle extends StatelessWidget {
   /// Callback when language changes
   final Function(Locale) onChanged;
 
-  const LanguageToggle({Key? key, required this.onChanged}) : super(key: key);
+  const LanguageToggle({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +61,10 @@ class LanguageToggle extends StatelessWidget {
 
     return IconButton(
       icon: Text(
-        Localization.getLanguageFlag(currentLocale.languageCode),
+        L10n.isArabic ? 'EN' : 'عربي',
         style: const TextStyle(fontSize: 24),
       ),
-      tooltip: context.l10n.language,
+      tooltip: context.l10n.appTitle,
       onPressed: () {
         // Toggle between English and Spanish (or other available locales)
         final supportedLocales = Localization.supportedLocales;
