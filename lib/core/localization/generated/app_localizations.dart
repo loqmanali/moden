@@ -181,6 +181,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Events'**
   String get events;
+
+  /// Start Scanning
+  ///
+  /// In en, this message translates to:
+  /// **'Start Scanning'**
+  String get startScanning;
+
+  /// View Workshops
+  ///
+  /// In en, this message translates to:
+  /// **'View Workshops'**
+  String get viewWorkshops;
+
+  /// QR Validator
+  ///
+  /// In en, this message translates to:
+  /// **'QR Validator'**
+  String get qrScreenTitle;
+
+  /// Processing...
+  ///
+  /// In en, this message translates to:
+  /// **'Processing...'**
+  String get processing;
+
+  /// Scan QR Code
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR Code'**
+  String get scanQrCode;
+
+  /// Workshops
+  ///
+  /// In en, this message translates to:
+  /// **'Workshops'**
+  String get workshops;
+
+  /// Starting Camera...
+  ///
+  /// In en, this message translates to:
+  /// **'Starting Camera...'**
+  String get startingCamera;
+
+  /// Stop Scanning
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Scanning'**
+  String get stopScanning;
+
+  /// Start Camera & Scan
+  ///
+  /// In en, this message translates to:
+  /// **'Start Camera & Scan'**
+  String get startCameraScan;
+
+  /// Accepted
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get accepted;
+
+  /// Access Granted
+  ///
+  /// In en, this message translates to:
+  /// **'Access Granted'**
+  String get accessGranted;
+
+  /// Ticket Validated Successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Ticket Validated Successfully'**
+  String get ticketValidatedSuccessfully;
+
+  /// Scan Next Ticket
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Next Ticket'**
+  String get scanNextTicket;
+
+  /// Return to My Events
+  ///
+  /// In en, this message translates to:
+  /// **'Return to My Events'**
+  String get returnToMyEvents;
+
+  /// Rejected
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get rejected;
+
+  /// Access Denied
+  ///
+  /// In en, this message translates to:
+  /// **'Access Denied'**
+  String get accessDenied;
+
+  /// Invalid or already used ticket
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid or already used ticket'**
+  String get invalidOrAlreadyUsedTicket;
 }
 
 class _AppLocalizationsDelegate

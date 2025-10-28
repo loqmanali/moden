@@ -50,4 +50,56 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get events => 'فعالياتي';
+
+  @override
+  String get startScanning => 'بدء المسح';
+
+  @override
+  String get viewWorkshops => 'عرض الدورات';
+
+  @override
+  String get qrScreenTitle => ' مسح الرمز';
+
+  @override
+  String get processing => 'معالجة...';
+
+  @override
+  String get scanQrCode => ' مسح الرمز';
+
+  @override
+  String get workshops => 'دورات';
+
+  @override
+  String get startingCamera => 'بدء الكاميرا...';
+
+  @override
+  String get stopScanning => 'إيقاف المسح';
+
+  @override
+  String get startCameraScan => 'بدء الكاميرا و المسح';
+
+  @override
+  String get accepted => 'القبول';
+
+  @override
+  String get accessGranted => 'تم القبول';
+
+  @override
+  String get ticketValidatedSuccessfully => 'تم التحقق من التذكرة بنجاح';
+
+  @override
+  String get scanNextTicket => 'مسح التذكرة التالية';
+
+  @override
+  String get returnToMyEvents => 'الرجوع إلى فعالياتي';
+
+  @override
+  String get rejected => 'الرفض';
+
+  @override
+  String get accessDenied => 'مرفوض';
+
+  @override
+  String get invalidOrAlreadyUsedTicket =>
+      'التذكرة غير صالحة أو تم استخدامها مسبقًا';
 }

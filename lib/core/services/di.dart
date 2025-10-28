@@ -8,6 +8,8 @@ import 'package:modn/core/storage/cache_helper_factory.dart';
 import 'package:modn/core/storage/local_storage_repository.dart';
 import 'package:modn/features/authentication/cubit/login_cubit.dart';
 import 'package:modn/features/authentication/services/login_service.dart';
+import 'package:modn/features/events/cubit/event_cubit.dart';
+import 'package:modn/features/events/services/event_service.dart';
 
 final GetIt di = GetIt.instance;
 
@@ -61,6 +63,19 @@ Future<void> setupDependencies() async {
         loginService: di<LoginService>(),
         storageRepository: di<LocalStorageRepository>(),
       ),
+    );
+  }
+
+  // ==================== Events ====================
+  if (!di.isRegistered<EventService>()) {
+    di.registerLazySingleton<EventService>(
+      () => EventService(apiClient: di<ApiClient>()),
+    );
+  }
+
+  if (!di.isRegistered<EventCubit>()) {
+    di.registerFactory<EventCubit>(
+      () => EventCubit(eventService: di<EventService>()),
     );
   }
 }

@@ -98,8 +98,9 @@ class CacheHelper {
     if (T == int) return (await getInt(key) ?? defaultValue) as T?;
     if (T == double) return (await getDouble(key) ?? defaultValue) as T?;
     if (T == bool) return (await getBool(key) ?? defaultValue) as T?;
-    if (T == List<String>)
+    if (T == List<String>) {
       return (await getStringList(key) ?? defaultValue) as T?;
+    }
     return defaultValue;
   }
 

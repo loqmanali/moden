@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modn/core/design_system/app_colors/app_colors.dart';
+import 'package:modn/core/localization/localization.dart';
 import 'package:modn/core/utils/app_assets.dart';
 import 'package:modn/core/widgets/adaptive_button.dart';
 import 'package:modn/core/widgets/app_scaffold.dart';
@@ -33,18 +34,18 @@ class RejectedBody implements Body {
           AppSpacing.height(context.height * 0.1),
           SvgPicture.asset(AppSvgAssets.failedIcon),
           const AppSpacing.height(20),
-          const Text(
-            'Access Denied',
-            style: TextStyle(
+          Text(
+            context.l10n.accessDenied,
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: AppColors.primaryDark,
             ),
           ),
           const AppSpacing.height(20),
-          const Text(
-            'Invalid or already used ticket',
-            style: TextStyle(
+          Text(
+            context.l10n.invalidOrAlreadyUsedTicket,
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: AppColors.primaryDark,
@@ -59,7 +60,7 @@ class RejectedBody implements Body {
                   onPressed: () {
                     context.go(AppNavigations.qr);
                   },
-                  label: 'Scan next ticket',
+                  label: context.l10n.scanNextTicket,
                   borderRadius: 24,
                 ),
                 const AppSpacing.height(20),
@@ -67,7 +68,7 @@ class RejectedBody implements Body {
                   onPressed: () {
                     context.go(AppNavigations.event);
                   },
-                  label: 'Return to My Events',
+                  label: context.l10n.returnToMyEvents,
                   borderRadius: 24,
                   variant: AdaptiveButtonVariant.outlined,
                 ),
@@ -84,8 +85,8 @@ class RejectedHeader implements Header {
   const RejectedHeader({Key? key});
   @override
   Widget build(BuildContext context) {
-    return const HeaderWidget(
-      title: 'Rejected',
+    return HeaderWidget(
+      title: context.l10n.rejected,
     );
   }
 }

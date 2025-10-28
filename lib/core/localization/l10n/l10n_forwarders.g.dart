@@ -47,6 +47,23 @@ class L10n {
   static String get pleaseEnterValidEmail => _tr.pleaseEnterValidEmail;
   static String get passwordMustBeAtLeast6Characters => _tr.passwordMustBeAtLeast6Characters;
   static String get events => _tr.events;
+  static String get startScanning => _tr.startScanning;
+  static String get viewWorkshops => _tr.viewWorkshops;
+  static String get qrScreenTitle => _tr.qrScreenTitle;
+  static String get processing => _tr.processing;
+  static String get scanQrCode => _tr.scanQrCode;
+  static String get workshops => _tr.workshops;
+  static String get startingCamera => _tr.startingCamera;
+  static String get stopScanning => _tr.stopScanning;
+  static String get startCameraScan => _tr.startCameraScan;
+  static String get accepted => _tr.accepted;
+  static String get accessGranted => _tr.accessGranted;
+  static String get ticketValidatedSuccessfully => _tr.ticketValidatedSuccessfully;
+  static String get scanNextTicket => _tr.scanNextTicket;
+  static String get returnToMyEvents => _tr.returnToMyEvents;
+  static String get rejected => _tr.rejected;
+  static String get accessDenied => _tr.accessDenied;
+  static String get invalidOrAlreadyUsedTicket => _tr.invalidOrAlreadyUsedTicket;
 
   // Methods
 }

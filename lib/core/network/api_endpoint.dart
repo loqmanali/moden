@@ -11,6 +11,7 @@ class ApiEndpoint {
 
   /// Endpoints
   static const String login = '/auth/login';
+  static const String activeEvent = '/event/active';
 
   /// Headers
   static const Map<String, String> defaultHeaders = {

@@ -55,5 +55,73 @@
   "events": "Events",
   "@events": {
     "description": "Events"
+  },
+  "startScanning": "Start Scanning",
+  "@startScanning": {
+    "description": "Start Scanning"
+  },
+  "viewWorkshops": "View Workshops",
+  "@viewWorkshops": {
+    "description": "View Workshops"
+  },
+  "qrScreenTitle": "QR Validator",
+  "@qrScreenTitle": {
+    "description": "QR Validator"
+  },
+  "processing": "Processing...",
+  "@processing": {
+    "description": "Processing..."
+  },
+  "scanQrCode": "Scan QR Code",
+  "@scanQrCode": {
+    "description": "Scan QR Code"
+  },
+  "workshops": "Workshops",
+  "@workshops": {
+    "description": "Workshops"
+  },
+  "startingCamera": "Starting Camera...",
+  "@startingCamera": {
+    "description": "Starting Camera..."
+  },
+  "stopScanning": "Stop Scanning",
+  "@stopScanning": {
+    "description": "Stop Scanning"
+  },
+  "startCameraScan": "Start Camera & Scan",
+  "@startCameraScan": {
+    "description": "Start Camera & Scan"
+  },
+  "accepted": "Accepted",
+  "@accepted": {
+    "description": "Accepted"
+  },
+  "accessGranted": "Access Granted",
+  "@accessGranted": {
+    "description": "Access Granted"
+  },
+  "ticketValidatedSuccessfully": "Ticket Validated Successfully",
+  "@ticketValidatedSuccessfully": {
+    "description": "Ticket Validated Successfully"
+  },
+  "scanNextTicket": "Scan Next Ticket",
+  "@scanNextTicket": {
+    "description": "Scan Next Ticket"
+  },
+  "returnToMyEvents": "Return to My Events",
+  "@returnToMyEvents": {
+    "description": "Return to My Events"
+  },
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "Rejected"
+  },
+  "accessDenied": "Access Denied",
+  "@accessDenied": {
+    "description": "Access Denied"
+  },
+  "invalidOrAlreadyUsedTicket": "Invalid or already used ticket",
+  "@invalidOrAlreadyUsedTicket": {
+    "description": "Invalid or already used ticket"
   }
 }

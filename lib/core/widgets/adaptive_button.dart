@@ -357,7 +357,9 @@ class _AdaptiveButtonState extends State<AdaptiveButton> {
           widget.icon!,
           const SizedBox(width: 8),
         ],
-        Flexible(child: Text(widget.label!, style: textStyle)),
+        Flexible(
+          child: Text(widget.label!, style: textStyle),
+        ),
         if (slot == IconSlot.trailing) ...[
           const SizedBox(width: 8),
           widget.icon!,

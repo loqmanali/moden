@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:modn/core/utils/app_assets.dart';
+import 'package:modn/core/widgets/animated_svg_widget.dart';
 
 /// {@template loading_indicator}
 /// A highly customizable, platform-aware loading indicator that supports multiple animation styles.
@@ -167,6 +169,9 @@ enum LoadingIndicatorType {
 
   /// Pulsing grid animation
   pulsingGrid,
+
+  /// Modn loading indicator
+  modnLoading,
 }
 
 /// A builder widget that constructs the appropriate loading indicator
@@ -306,6 +311,11 @@ class LoadingIndicatorBuilder extends StatelessWidget {
         return SpinKitWaveSpinner(color: color, size: size);
       case LoadingIndicatorType.pulsingGrid:
         return SpinKitPulsingGrid(color: color, size: size);
+      case LoadingIndicatorType.modnLoading:
+        return const AnimatedSvgWidget(
+          assetName: AppSvgAssets.modn,
+          strokeWidth: 1,
+        );
     }
   }
 }

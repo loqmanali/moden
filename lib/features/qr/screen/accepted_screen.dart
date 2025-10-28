@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modn/core/design_system/app_colors/app_colors.dart';
+import 'package:modn/core/localization/localization.dart';
 import 'package:modn/core/routes/app_navigators.dart';
 import 'package:modn/core/utils/app_assets.dart';
 import 'package:modn/core/widgets/adaptive_button.dart';
@@ -27,8 +28,8 @@ class AcceptedHeader implements Header {
   const AcceptedHeader({Key? key});
   @override
   Widget build(BuildContext context) {
-    return const HeaderWidget(
-      title: 'Accepted',
+    return HeaderWidget(
+      title: context.l10n.accepted,
     );
   }
 }
@@ -43,63 +44,72 @@ class AcceptedBody implements Body {
           AppSpacing.height(context.height * 0.1),
           SvgPicture.asset(AppSvgAssets.successIcon),
           const AppSpacing.height(20),
-          const Text(
-            'Access Granted',
-            style: TextStyle(
+          Text(
+            context.l10n.accessGranted,
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: AppColors.primaryDark,
             ),
           ),
           const AppSpacing.height(20),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            margin: const EdgeInsets.symmetric(horizontal: 24),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: const Color(0xFF28B3BA).withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: const Column(
-              children: [
-                Text(
-                  'Guest Information',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2B717F),
-                  ),
-                ),
-                AppSpacing.height(16),
-                Text(
-                  'Name: Mohamed Hassan',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF2B717F),
-                  ),
-                ),
-                AppSpacing.height(16),
-                Text(
-                  'Ticket: VIP Access',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF2B717F),
-                  ),
-                ),
-                AppSpacing.height(16),
-                Text(
-                  'Section: A-12',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF2B717F),
-                  ),
-                ),
-              ],
+          Text(
+            L10n.ticketValidatedSuccessfully,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF2B717F),
             ),
           ),
+          const AppSpacing.height(20),
+          // Container(
+          //   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          //   margin: const EdgeInsets.symmetric(horizontal: 24),
+          //   width: double.infinity,
+          //   decoration: BoxDecoration(
+          //     color: const Color(0xFF28B3BA).withValues(alpha: 0.1),
+          //     borderRadius: BorderRadius.circular(24),
+          //   ),
+          //   child: const Column(
+          //     children: [
+          //       Text(
+          //         'Guest Information',
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.bold,
+          //           color: Color(0xFF2B717F),
+          //         ),
+          //       ),
+          //       AppSpacing.height(16),
+          //       Text(
+          //         'Name: Mohamed Hassan',
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.w500,
+          //           color: Color(0xFF2B717F),
+          //         ),
+          //       ),
+          //       AppSpacing.height(16),
+          //       Text(
+          //         'Ticket: VIP Access',
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.w500,
+          //           color: Color(0xFF2B717F),
+          //         ),
+          //       ),
+          //       AppSpacing.height(16),
+          //       Text(
+          //         'Section: A-12',
+          //         style: TextStyle(
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.w500,
+          //           color: Color(0xFF2B717F),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           const AppSpacing.height(20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),
@@ -109,7 +119,7 @@ class AcceptedBody implements Body {
                   onPressed: () {
                     context.go(AppNavigations.qr);
                   },
-                  label: 'Scan next ticket',
+                  label: L10n.scanNextTicket,
                   borderRadius: 24,
                 ),
                 const AppSpacing.height(20),
@@ -117,7 +127,7 @@ class AcceptedBody implements Body {
                   onPressed: () {
                     context.go(AppNavigations.event);
                   },
-                  label: 'Return to My Events',
+                  label: L10n.returnToMyEvents,
                   borderRadius: 24,
                   variant: AdaptiveButtonVariant.outlined,
                 ),

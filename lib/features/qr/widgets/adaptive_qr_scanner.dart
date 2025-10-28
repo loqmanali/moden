@@ -110,7 +110,7 @@ class _AdaptiveQrScannerState extends State<AdaptiveQrScanner>
     super.initState();
     _controller = widget.controller ??
         MobileScannerController(
-          detectionSpeed: DetectionSpeed.normal,
+          detectionSpeed: DetectionSpeed.noDuplicates,
           facing: CameraFacing.back,
           torchEnabled: false,
           autoStart: !widget.startPaused,
@@ -285,7 +285,7 @@ class _ControlButton extends StatelessWidget {
         width: 48,
         height: 48,
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.3),
+          color: Colors.black.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(40),
         ),
         child: Icon(icon, color: Colors.white),

@@ -55,5 +55,73 @@
   "events": "فعالياتي",
   "@events": {
     "description": "Events"
+  },
+  "startScanning": "بدء المسح",
+  "@startScanning": {
+    "description": "Start Scanning"
+  },
+  "viewWorkshops": "عرض الدورات",
+  "@viewWorkshops": {
+    "description": "View Workshops"
+  },
+  "qrScreenTitle": " مسح الرمز",
+  "@qrScreenTitle": {
+    "description": "QR Screen Title"
+  },
+  "processing": "معالجة...",
+  "@processing": {
+    "description": "Processing..."
+  },
+  "scanQrCode": " مسح الرمز",
+  "@scanQrCode": {
+    "description": "Scan QR Code"
+  },
+  "workshops": "دورات",
+  "@workshops": {
+    "description": "Workshops"
+  },
+  "startingCamera": "بدء الكاميرا...",
+  "@startingCamera": {
+    "description": "Starting Camera..."
+  },
+  "stopScanning": "إيقاف المسح",
+  "@stopScanning": {
+    "description": "Stop Scanning"
+  },
+  "startCameraScan": "بدء الكاميرا و المسح",
+  "@startCameraScan": {
+    "description": "Start Camera & Scan"
+  },
+  "accepted": "القبول",
+  "@accepted": {
+    "description": "Accepted"
+  },
+  "accessGranted": "تم القبول",
+  "@accessGranted": {
+    "description": "Access Granted"
+  },
+  "ticketValidatedSuccessfully": "تم التحقق من التذكرة بنجاح",
+  "@ticketValidatedSuccessfully": {
+    "description": "Ticket Validated Successfully"
+  },
+  "scanNextTicket": "مسح التذكرة التالية",
+  "@scanNextTicket": {
+    "description": "Scan Next Ticket"
+  },
+  "returnToMyEvents": "الرجوع إلى فعالياتي",
+  "@returnToMyEvents": {
+    "description": "Return to My Events"
+  },
+  "rejected": "الرفض",
+  "@rejected": {
+    "description": "Rejected"
+  },
+  "accessDenied": "مرفوض",
+  "@accessDenied": {
+    "description": "Access Denied"
+  },
+  "invalidOrAlreadyUsedTicket": "التذكرة غير صالحة أو تم استخدامها مسبقًا",
+  "@invalidOrAlreadyUsedTicket": {
+    "description": "Invalid or already used ticket"
   }
 }

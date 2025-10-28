@@ -10,4 +10,5 @@ class AppSvgAssets {
   static const String failedIcon = 'assets/icons/faild_icon.svg';
   static const String calendar = 'assets/icons/calendar.svg';
   static const String location = 'assets/icons/location.svg';
+  static const String modn = 'assets/images/modn.svg';
 }

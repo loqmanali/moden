@@ -4,6 +4,7 @@ import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:modn/core/design_system/app_colors/app_colors.dart';
+import 'package:modn/core/localization/localization.dart';
 import 'package:modn/core/widgets/adaptive_button.dart';
 import 'package:modn/core/widgets/adaptive_loading.dart';
 import 'package:modn/core/widgets/app_scaffold.dart';
@@ -147,9 +148,9 @@ class QrHeader implements Header {
   const QrHeader({Key? key});
   @override
   Widget build(BuildContext context) {
-    return const HeaderWidget(
-      title: 'QR Validator',
-      trailing: Icon(
+    return HeaderWidget(
+      title: context.l10n.qrScreenTitle,
+      trailing: const Icon(
         FIcons.logOut,
         color: Colors.transparent,
       ),
@@ -174,11 +175,11 @@ class QrBody implements Body {
   final bool isScanning;
   final bool isStartingCam;
 
-  String _getButtonText() {
-    if (isLoading) return 'Processing...';
-    if (isStartingCam) return 'Starting Camera...';
-    if (isScanning) return 'Stop Scanning';
-    return kIsWeb ? 'Start Camera & Scan' : 'Scan QR Code';
+  String _getButtonText(BuildContext context) {
+    if (isLoading) return context.l10n.processing;
+    if (isStartingCam) return context.l10n.startingCamera;
+    if (isScanning) return context.l10n.stopScanning;
+    return kIsWeb ? context.l10n.startCameraScan : context.l10n.scanQrCode;
   }
 
   @override
@@ -233,7 +234,7 @@ class QrBody implements Body {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: AdaptiveButton(
                     onPressed: isLoading || isStartingCam ? null : onScan,
-                    label: _getButtonText(),
+                    label: _getButtonText(context),
                     borderRadius: 24,
                   ),
                 ),

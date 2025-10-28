@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:modn/core/design_system/app_colors/app_colors.dart';
+import 'package:modn/core/localization/localization.dart';
 import 'package:modn/core/utils/app_assets.dart';
 import 'package:modn/core/widgets/adaptive_button.dart';
 
@@ -14,6 +15,7 @@ class EventCard extends StatelessWidget {
     required this.location,
     required this.checkedIn,
     required this.capacity,
+    this.onViewWorkshops,
     this.onStartScanning,
   });
 
@@ -22,6 +24,7 @@ class EventCard extends StatelessWidget {
   final String location;
   final int checkedIn;
   final int capacity;
+  final VoidCallback? onViewWorkshops;
   final VoidCallback? onStartScanning;
 
   @override
@@ -78,20 +81,53 @@ class EventCard extends StatelessWidget {
             const AppSpacing.height(14),
 
             // CTA button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AdaptiveButton(
-                onPressed: onStartScanning,
-                label: 'Start Scanning',
-                borderRadius: 24,
-                sizeSpec: const ButtonSizeSpec(
-                  height: 34,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                ),
-              ),
-            ),
+            onViewWorkshops != null
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: AdaptiveButton(
+                          variant: AdaptiveButtonVariant.outlined,
+                          onPressed: onViewWorkshops,
+                          label: L10n.viewWorkshops,
+                          borderRadius: 24,
+                          sizeSpec: const ButtonSizeSpec(
+                            height: 34,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                          ),
+                        ),
+                      ),
+                      const AppSpacing.width(8),
+                      Expanded(
+                        child: AdaptiveButton(
+                          onPressed: onStartScanning,
+                          label: L10n.startScanning,
+                          borderRadius: 24,
+                          sizeSpec: const ButtonSizeSpec(
+                            height: 34,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 10),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : AdaptiveButton(
+                    onPressed: onStartScanning,
+                    label: L10n.startScanning,
+                    borderRadius: 24,
+                    sizeSpec: const ButtonSizeSpec(
+                      height: 34,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    ),
+                  ),
           ],
         ),
       ),

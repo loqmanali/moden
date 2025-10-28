@@ -50,4 +50,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get events => 'Events';
+
+  @override
+  String get startScanning => 'Start Scanning';
+
+  @override
+  String get viewWorkshops => 'View Workshops';
+
+  @override
+  String get qrScreenTitle => 'QR Validator';
+
+  @override
+  String get processing => 'Processing...';
+
+  @override
+  String get scanQrCode => 'Scan QR Code';
+
+  @override
+  String get workshops => 'Workshops';
+
+  @override
+  String get startingCamera => 'Starting Camera...';
+
+  @override
+  String get stopScanning => 'Stop Scanning';
+
+  @override
+  String get startCameraScan => 'Start Camera & Scan';
+
+  @override
+  String get accepted => 'Accepted';
+
+  @override
+  String get accessGranted => 'Access Granted';
+
+  @override
+  String get ticketValidatedSuccessfully => 'Ticket Validated Successfully';
+
+  @override
+  String get scanNextTicket => 'Scan Next Ticket';
+
+  @override
+  String get returnToMyEvents => 'Return to My Events';
+
+  @override
+  String get rejected => 'Rejected';
+
+  @override
+  String get accessDenied => 'Access Denied';
+
+  @override
+  String get invalidOrAlreadyUsedTicket => 'Invalid or already used ticket';
 }
