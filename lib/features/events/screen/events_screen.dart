@@ -94,11 +94,11 @@ class BodyEvent implements Body {
                           location: state.event!.city ?? '',
                           checkedIn: state.event!.applications.length,
                           capacity: state.event!.requiredFields.length,
-                          onStartScanning: () => context.go(AppNavigations.qr),
+                          onStartScanning: () => context.go('${AppNavigations.qr}?type=event'),
                           onViewWorkshops: () {
                             context.go(
                               AppNavigations.workshops,
-                              extra: state.event!.workshops,
+                              extra: state.event!,
                             );
                           },
                         ),

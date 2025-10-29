@@ -86,24 +86,35 @@ final router = GoRouter(
       path: AppNavigations.workshops,
       builder: (context, state) {
         final extra = state.extra;
-        final List<EventWorkshop> workshops;
-        if (extra is List<EventWorkshop>) {
-          workshops = extra;
-        } else if (extra is List) {
-          workshops = extra
-              .map((e) {
-                if (e is EventWorkshop) return e;
-                if (e is Map<String, dynamic>) {
-                  return EventWorkshop.fromJson(e);
-                }
-                return null;
-              })
-              .whereType<EventWorkshop>()
-              .toList(growable: false);
-        } else {
-          workshops = const <EventWorkshop>[];
+        EventDetails? event;
+        if (extra is EventDetails) {
+          event = extra;
+        } else if (extra is Map<String, dynamic>) {
+          event = EventDetails.fromJson(extra);
+        } else if (extra is Map) {
+          event = EventDetails.fromJson(Map<String, dynamic>.from(extra));
         }
-        return WorkshopsScreen(workshops: workshops);
+        if (event == null) {
+          return const EventsScreen();
+        }
+        // final List<EventWorkshop> workshops;
+        // if (extra is List<EventWorkshop>) {
+        //   workshops = extra;
+        // } else if (extra is List) {
+        //   workshops = extra
+        //       .map((e) {
+        //         if (e is EventWorkshop) return e;
+        //         if (e is Map<String, dynamic>) {
+        //           return EventWorkshop.fromJson(e);
+        //         }
+        //         return null;
+        //       })
+        //       .whereType<EventWorkshop>()
+        //       .toList(growable: false);
+        // } else {
+        //   workshops = const <EventWorkshop>[];
+        // }
+        return WorkshopsScreen(event: event);
       },
     ),
 
@@ -113,7 +124,12 @@ final router = GoRouter(
       name: AppNavigations.qr,
       path: AppNavigations.qr,
       builder: (context, state) {
-        return const QrScreen();
+        final type = state.queryParameters['type'] ?? 'event';
+        final workshopId = state.queryParameters['workshopId'];
+        return QrScreen(
+          type: type,
+          workshopId: workshopId,
+        );
       },
     ),
 
@@ -123,7 +139,12 @@ final router = GoRouter(
       name: AppNavigations.qrAccepted,
       path: AppNavigations.qrAccepted,
       builder: (context, state) {
-        return const AcceptedScreen();
+        final type = state.queryParameters['type'] ?? 'event';
+        final workshopId = state.queryParameters['workshopId'];
+        return AcceptedScreen(
+          type: type,
+          workshopId: workshopId,
+        );
       },
     ),
 
@@ -133,7 +154,12 @@ final router = GoRouter(
       name: AppNavigations.qrRejected,
       path: AppNavigations.qrRejected,
       builder: (context, state) {
-        return const RejectedScreen();
+        final type = state.queryParameters['type'] ?? 'event';
+        final workshopId = state.queryParameters['workshopId'];
+        return RejectedScreen(
+          type: type,
+          workshopId: workshopId,
+        );
       },
     ),
   ],

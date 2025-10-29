@@ -13,19 +13,36 @@ import 'package:modn/core/widgets/header_widget.dart';
 import '../../../core/routes/app_navigators.dart';
 
 class RejectedScreen extends StatelessWidget {
-  const RejectedScreen({super.key});
+  const RejectedScreen({
+    super.key,
+    this.type = 'event',
+    this.workshopId,
+  });
+
+  final String type;
+  final String? workshopId;
 
   @override
   Widget build(BuildContext context) {
-    return const AppScaffold(
-      header: RejectedHeader(),
-      body: RejectedBody(),
+    return AppScaffold(
+      header: const RejectedHeader(),
+      body: RejectedBody(
+        type: type,
+        workshopId: workshopId,
+      ),
     );
   }
 }
 
 class RejectedBody implements Body {
-  const RejectedBody({Key? key});
+  const RejectedBody({
+    Key? key,
+    this.type = 'event',
+    this.workshopId,
+  });
+
+  final String type;
+  final String? workshopId;
   @override
   Widget build(BuildContext context) {
     return BodyWidget(
@@ -58,7 +75,10 @@ class RejectedBody implements Body {
               children: [
                 AdaptiveButton(
                   onPressed: () {
-                    context.go(AppNavigations.qr);
+                    final queryParams = workshopId != null
+                        ? '?type=$type&workshopId=$workshopId'
+                        : '?type=$type';
+                    context.go('${AppNavigations.qr}$queryParams');
                   },
                   label: context.l10n.scanNextTicket,
                   borderRadius: 24,

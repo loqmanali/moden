@@ -1,38 +1,73 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:modn/core/design_system/app_colors/app_colors.dart';
 import 'package:modn/core/localization/localization.dart';
+import 'package:modn/core/services/device_info_service.dart';
+import 'package:modn/core/services/di.dart';
 import 'package:modn/core/widgets/adaptive_button.dart';
 import 'package:modn/core/widgets/adaptive_loading.dart';
 import 'package:modn/core/widgets/app_scaffold.dart';
 import 'package:modn/core/widgets/app_spacing.dart';
 import 'package:modn/core/widgets/body_widget.dart';
 import 'package:modn/core/widgets/header_widget.dart';
+import 'package:modn/features/qr/cubit/qr_scan_cubit.dart';
 import 'package:modn/features/qr/widgets/adaptive_qr_scanner.dart';
 
 import '../../../core/routes/app_navigators.dart';
 
-class QrScreen extends StatefulWidget {
-  const QrScreen({super.key});
+class QrScreen extends StatelessWidget {
+  const QrScreen({
+    super.key,
+    this.type = 'event',
+    this.workshopId,
+  });
+
+  final String type;
+  final String? workshopId;
 
   @override
-  State<QrScreen> createState() => _QrScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => di<QrScanCubit>(),
+      child: _QrScreenContent(
+        type: type,
+        workshopId: workshopId,
+      ),
+    );
+  }
 }
 
-class _QrScreenState extends State<QrScreen> {
+class _QrScreenContent extends StatefulWidget {
+  const _QrScreenContent({
+    this.type = 'event',
+    this.workshopId,
+  });
+
+  final String type;
+  final String? workshopId;
+
+  @override
+  State<_QrScreenContent> createState() => _QrScreenContentState();
+}
+
+class _QrScreenContentState extends State<_QrScreenContent> {
   late final MobileScannerController _controller;
+  late final DeviceInfoService _deviceInfoService;
+  String? _deviceId;
 
   bool _isScanning = false;
   bool _isLoading = false;
-  bool _lastResultSuccess = false;
   bool _isStartingCam = false;
 
   @override
   void initState() {
     super.initState();
+    _deviceInfoService = di<DeviceInfoService>();
+    _initDeviceId();
     _controller = MobileScannerController(
       detectionSpeed: DetectionSpeed.normal,
       facing: CameraFacing.back,
@@ -43,6 +78,10 @@ class _QrScreenState extends State<QrScreen> {
     );
   }
 
+  Future<void> _initDeviceId() async {
+    _deviceId = await _deviceInfoService.getDeviceId();
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -50,30 +89,62 @@ class _QrScreenState extends State<QrScreen> {
   }
 
   Future<void> _handleQr(String code) async {
+    if (!mounted) return;
+
     setState(() => _isLoading = true);
 
-    // 🕐 ننتظر كأنها عملية API
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Parse QR code data
+      final qrScanCubit = context.read<QrScanCubit>();
+      
+      // Get device ID if not already fetched
+      final deviceId = _deviceId ?? await _deviceInfoService.getDeviceId();
+      
+      // Call API to scan QR code
+      await qrScanCubit.scanQrCode(
+        qrData: code,
+        type: widget.type,
+        workshopId: widget.workshopId,
+        deviceId: deviceId,
+      );
 
-    // نبدّل النتيجة كل مرة
-    _lastResultSuccess = !_lastResultSuccess;
-    final bool success = _lastResultSuccess;
+      // Stop camera after scanning
+      await _controller.stop();
+      
+      if (!mounted) return;
+      
+      setState(() {
+        _isLoading = false;
+        _isScanning = false;
+      });
 
-    // نوقف الكاميرا بعد القراءة
-    await _controller.stop();
-    setState(() {
-      _isLoading = false;
-      _isScanning = false;
-    });
-
-    // ✅ أو ❌
-    if (success) {
-      if (mounted) {
-        context.push(AppNavigations.qrAccepted);
+      // Navigate based on response
+      final state = qrScanCubit.state;
+      final queryParams = widget.workshopId != null
+          ? '?type=${widget.type}&workshopId=${widget.workshopId}'
+          : '?type=${widget.type}';
+      
+      if (state.status == QrScanStatus.success && state.response?.success == true) {
+        if (mounted) {
+          context.push('${AppNavigations.qrAccepted}$queryParams');
+        }
+      } else {
+        if (mounted) {
+          context.push('${AppNavigations.qrRejected}$queryParams');
+        }
       }
-    } else {
+    } catch (e) {
+      // Handle error
+      await _controller.stop();
       if (mounted) {
-        context.push(AppNavigations.qrRejected);
+        setState(() {
+          _isLoading = false;
+          _isScanning = false;
+        });
+        final queryParams = widget.workshopId != null
+            ? '?type=${widget.type}&workshopId=${widget.workshopId}'
+            : '?type=${widget.type}';
+        context.push('${AppNavigations.qrRejected}$queryParams');
       }
     }
   }

@@ -16,14 +16,14 @@ import '../models/active_event_model.dart';
 import '../widgets/event_card.dart';
 
 class WorkshopsScreen extends StatelessWidget {
-  const WorkshopsScreen({super.key, required this.workshops});
-  final List<EventWorkshop> workshops;
+  const WorkshopsScreen({super.key, required this.event});
+  final EventDetails event;
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
       header: const HeaderWorkshops(),
-      body: BodyWorkshops(workshops: workshops),
+      body: BodyWorkshops(event: event),
     );
   }
 }
@@ -60,8 +60,8 @@ class HeaderWorkshops implements Header {
 }
 
 class BodyWorkshops implements Body {
-  const BodyWorkshops({Key? key, required this.workshops});
-  final List<EventWorkshop> workshops;
+  const BodyWorkshops({Key? key, required this.event});
+  final EventDetails event;
   @override
   Widget build(BuildContext context) {
     return BodyWidget(
@@ -73,17 +73,19 @@ class BodyWorkshops implements Body {
           child: SafeArea(
             child: SingleChildScrollView(
               child: Column(
-                children: List.generate(workshops.length, (index) {
-                  final workshop = workshops[index];
+                children: List.generate(event.workshops.length, (index) {
+                  final workshop = event.workshops[index];
                   return Padding(
                     padding: const EdgeInsets.only(top: 16),
                     child: EventCard(
                       title: workshop.name.substring(0, 16),
-                      dateText: _formatWorkshopSchedule(workshop),
-                      location: workshop.name.substring(0, 16),
+                      dateText: _formatWorkshopSchedule(workshop, event.date),
+                      location: event.city ?? '',
                       checkedIn: workshop.speakers.length,
                       capacity: workshop.speakers.length,
-                      onStartScanning: () => context.go(AppNavigations.qr),
+                      onStartScanning: () => context.go(
+                        '${AppNavigations.qr}?type=workshop&workshopId=${workshop.id}',
+                      ),
                     ),
                   );
                 }),
@@ -114,8 +116,18 @@ String _formatDateRange(DateTime? start, DateTime? end) {
   return sameDay ? startText : '$startText - $endText';
 }
 
-String _formatWorkshopSchedule(EventWorkshop workshop) {
-  final datePart = _formatDateRange(workshop.date, workshop.date);
+String _formatWorkshopSchedule(EventWorkshop workshop, DateTime? eventStartDate) {
+  // Prefer computing the workshop date from the event base date + (day - 1),
+  // falling back to the workshop's own date if unavailable.
+  DateTime? effectiveDate;
+  if (eventStartDate != null && (workshop.day ?? 0) > 0) {
+    final offsetDays = (workshop.day ?? 1) - 1;
+    effectiveDate = eventStartDate.add(Duration(days: offsetDays));
+  } else {
+    effectiveDate = workshop.date;
+  }
+
+  final datePart = _formatDateRange(effectiveDate, effectiveDate);
   final timePart = _formatWorkshopTimeRange(workshop.from, workshop.to);
   final parts = <String>[];
   if (datePart.isNotEmpty) {

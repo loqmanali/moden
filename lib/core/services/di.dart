@@ -3,6 +3,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:modn/core/network/api_client.dart';
 import 'package:modn/core/network/api_endpoint.dart';
 import 'package:modn/core/network/network_info.dart';
+import 'package:modn/core/services/device_info_service.dart';
 import 'package:modn/core/storage/cache_helper.dart';
 import 'package:modn/core/storage/cache_helper_factory.dart';
 import 'package:modn/core/storage/local_storage_repository.dart';
@@ -10,12 +11,21 @@ import 'package:modn/features/authentication/cubit/login_cubit.dart';
 import 'package:modn/features/authentication/services/login_service.dart';
 import 'package:modn/features/events/cubit/event_cubit.dart';
 import 'package:modn/features/events/services/event_service.dart';
+import 'package:modn/features/qr/cubit/qr_scan_cubit.dart';
+import 'package:modn/features/qr/services/qr_scan_service.dart';
 
 final GetIt di = GetIt.instance;
 
 /// Setup all app dependencies
 /// Call this before runApp()
 Future<void> setupDependencies() async {
+  // ==================== Device Info ====================
+  if (!di.isRegistered<DeviceInfoService>()) {
+    di.registerLazySingleton<DeviceInfoService>(
+      () => DeviceInfoService(),
+    );
+  }
+
   // ==================== Storage ====================
   if (!di.isRegistered<CacheHelper>()) {
     final cacheHelper = CacheHelperFactory.createAsync();
@@ -76,6 +86,19 @@ Future<void> setupDependencies() async {
   if (!di.isRegistered<EventCubit>()) {
     di.registerFactory<EventCubit>(
       () => EventCubit(eventService: di<EventService>()),
+    );
+  }
+
+  // ==================== QR Scan ====================
+  if (!di.isRegistered<QrScanService>()) {
+    di.registerLazySingleton<QrScanService>(
+      () => QrScanService(apiClient: di<ApiClient>()),
+    );
+  }
+
+  if (!di.isRegistered<QrScanCubit>()) {
+    di.registerFactory<QrScanCubit>(
+      () => QrScanCubit(qrScanService: di<QrScanService>()),
     );
   }
 }

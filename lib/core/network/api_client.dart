@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'api_endpoint.dart';
 import 'exceptions/network_exceptions.dart';
 import 'interceptors/auth_interceptor.dart';
+import 'interceptors/custom_logging_interceptor.dart';
 import 'models/api_response.dart';
 
 /// API client for handling network requests
@@ -37,10 +38,10 @@ class ApiClient {
     _dio = Dio(options);
 
     // Add interceptors
-    // _dio.interceptors.addAll([
-    //   CustomLoggingInterceptor(),
-    //   RequestsInspectorInterceptor(),
-    // ]);
+    _dio.interceptors.addAll([
+      CustomLoggingInterceptor(),
+      LogInterceptor(),
+    ]);
 
     if (useAuth) {
       _dio.interceptors.add(AuthInterceptor());

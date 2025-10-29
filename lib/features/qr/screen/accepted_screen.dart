@@ -13,13 +13,23 @@ import 'package:modn/core/widgets/header_widget.dart';
 import '../../../core/widgets/app_spacing.dart';
 
 class AcceptedScreen extends StatelessWidget {
-  const AcceptedScreen({super.key});
+  const AcceptedScreen({
+    super.key,
+    this.type = 'event',
+    this.workshopId,
+  });
+
+  final String type;
+  final String? workshopId;
 
   @override
   Widget build(BuildContext context) {
-    return const AppScaffold(
-      header: AcceptedHeader(),
-      body: AcceptedBody(),
+    return AppScaffold(
+      header: const AcceptedHeader(),
+      body: AcceptedBody(
+        type: type,
+        workshopId: workshopId,
+      ),
     );
   }
 }
@@ -35,7 +45,14 @@ class AcceptedHeader implements Header {
 }
 
 class AcceptedBody implements Body {
-  const AcceptedBody({Key? key});
+  const AcceptedBody({
+    Key? key,
+    this.type = 'event',
+    this.workshopId,
+  });
+
+  final String type;
+  final String? workshopId;
   @override
   Widget build(BuildContext context) {
     return BodyWidget(
@@ -117,7 +134,10 @@ class AcceptedBody implements Body {
               children: [
                 AdaptiveButton(
                   onPressed: () {
-                    context.go(AppNavigations.qr);
+                    final queryParams = workshopId != null
+                        ? '?type=$type&workshopId=$workshopId'
+                        : '?type=$type';
+                    context.go('${AppNavigations.qr}$queryParams');
                   },
                   label: L10n.scanNextTicket,
                   borderRadius: 24,

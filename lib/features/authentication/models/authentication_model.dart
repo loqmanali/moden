@@ -10,7 +10,9 @@ class AuthenticationModel {
   });
 
   factory AuthenticationModel.fromJson(Map<String, dynamic> json) {
-    final userJson = json['user'] as Map<String, dynamic>? ?? const {};
+    // New API shape: user fields at root with role object and token
+    final Map<String, dynamic> userJson = json;
+
     return AuthenticationModel(
       message: json['message'] as String? ?? '',
       user: AuthenticatedUser.fromJson(userJson),
@@ -37,7 +39,7 @@ class AuthenticatedUser {
   final String? nationalId;
   final String? mobileNumber;
   final List<dynamic> applications;
-  final String? role;
+  final UserRole? role;
   final int? version;
   final String? refreshToken;
 
@@ -58,6 +60,9 @@ class AuthenticatedUser {
 
   factory AuthenticatedUser.fromJson(Map<String, dynamic> json) {
     final applicationsJson = json['applications'];
+    // New API: role is an object with permissions
+    final Map<String, dynamic>? roleJson =
+        json['role'] is Map<String, dynamic> ? json['role'] as Map<String, dynamic> : null;
     return AuthenticatedUser(
       id: json['_id']?.toString() ?? '',
       firstName: json['first_name']?.toString(),
@@ -70,7 +75,7 @@ class AuthenticatedUser {
       applications: applicationsJson is List<dynamic>
           ? List<dynamic>.from(applicationsJson)
           : const [],
-      role: json['role']?.toString(),
+      role: roleJson != null ? UserRole.fromJson(roleJson) : null,
       version: json['__v'] is int
           ? json['__v'] as int
           : int.tryParse('${json['__v']}'),
@@ -89,9 +94,46 @@ class AuthenticatedUser {
       'national_id': nationalId,
       'mobile_number': mobileNumber,
       'applications': applications,
-      'role': role,
+      'role': role?.toJson(),
       '__v': version,
       'refreshToken': refreshToken,
+    };
+  }
+}
+
+class UserRole {
+  final String? id;
+  final String name;
+  final List<String> permissions;
+  final int? version;
+
+  const UserRole({
+    this.id,
+    this.name = '',
+    this.permissions = const [],
+    this.version,
+  });
+
+  factory UserRole.fromJson(Map<String, dynamic> json) {
+    final perms = json['permissions'];
+    return UserRole(
+      id: json['_id']?.toString(),
+      name: json['name']?.toString() ?? '',
+      permissions: perms is List
+          ? perms.map((e) => e.toString()).toList()
+          : const [],
+      version: json['__v'] is int
+          ? json['__v'] as int
+          : int.tryParse('${json['__v']}'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'name': name,
+      'permissions': permissions,
+      '__v': version,
     };
   }
 }
