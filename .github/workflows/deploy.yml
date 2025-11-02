@@ -12,25 +12,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
-        
+
     - name: Install dependencies
       run: flutter pub get
-      
+
     # Skip analysis and tests for now to ensure successful deployment
     # - name: Analyze project source
     #   run: flutter analyze
-    #   
+    #
     # - name: Run tests
     #   run: flutter test
-      
+
     - name: Build web
-      run: flutter build web --release --pwa-strategy offline-first --base-href /moden/
-      
+      run: flutter build web --release --pwa-strategy offline-first --base-href /modn/
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
