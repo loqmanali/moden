@@ -101,4 +101,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidOrAlreadyUsedTicket => 'Invalid or already used ticket';
+
+  @override
+  String get workshopsComingSoon => 'Workshops Coming Soon';
+
+  @override
+  String get stayTuned =>
+      'Stay tuned — curated sessions will appear here as soon as they’re ready.';
+
+  @override
+  String get eventsEmptyStateText =>
+      'We’re curating the next experience. Check back soon to discover what’s coming next.';
+
+  @override
+  String get noActiveEventsYet => 'No active events yet';
 }

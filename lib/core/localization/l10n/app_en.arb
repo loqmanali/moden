@@ -123,5 +123,21 @@
   "invalidOrAlreadyUsedTicket": "Invalid or already used ticket",
   "@invalidOrAlreadyUsedTicket": {
     "description": "Invalid or already used ticket"
+  },
+  "workshopsComingSoon": "Workshops Coming Soon",
+  "@workshopsComingSoon": {
+    "description": "Workshops Coming Soon"
+  },
+  "stayTuned": "Stay tuned — curated sessions will appear here as soon as they’re ready.",
+  "@stayTuned": {
+    "description": "Stay Tuned"
+  },
+  "eventsEmptyStateText": "We’re curating the next experience. Check back soon to discover what’s coming next.",
+  "@eventsEmptyStateText": {
+    "description": "Events Empty State Text"
+  },
+  "noActiveEventsYet": "No active events yet",
+  "@noActiveEventsYet": {
+    "description": "No Active Events Yet"
   }
 }

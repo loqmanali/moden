@@ -64,6 +64,10 @@ class L10n {
   static String get rejected => _tr.rejected;
   static String get accessDenied => _tr.accessDenied;
   static String get invalidOrAlreadyUsedTicket => _tr.invalidOrAlreadyUsedTicket;
+  static String get workshopsComingSoon => _tr.workshopsComingSoon;
+  static String get stayTuned => _tr.stayTuned;
+  static String get eventsEmptyStateText => _tr.eventsEmptyStateText;
+  static String get noActiveEventsYet => _tr.noActiveEventsYet;
 
   // Methods
 }

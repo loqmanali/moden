@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modn/core/design_system/app_colors/app_colors.dart';
+import 'package:modn/core/localization/localization.dart';
 
 class WorkshopsEmptyState extends StatelessWidget {
   const WorkshopsEmptyState({super.key});
@@ -47,7 +48,7 @@ class WorkshopsEmptyState extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Workshops coming soon',
+                    L10n.workshopsComingSoon,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontSize: 20,
@@ -57,7 +58,7 @@ class WorkshopsEmptyState extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Stay tuned — curated sessions will appear here as soon as they’re ready.',
+                    L10n.stayTuned,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       height: 1.5,

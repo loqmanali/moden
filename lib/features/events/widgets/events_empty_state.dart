@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modn/core/localization/localization.dart';
 
 import '../../../core/design_system/app_colors/app_colors.dart';
 
@@ -49,7 +50,7 @@ class EventsEmptyState extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    'No active events yet',
+                    L10n.noActiveEventsYet,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -58,7 +59,7 @@ class EventsEmptyState extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'We’re curating the next experience. Check back soon to discover what’s coming next.',
+                    L10n.eventsEmptyStateText,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       height: 1.5,

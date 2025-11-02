@@ -123,5 +123,21 @@
   "invalidOrAlreadyUsedTicket": "التذكرة غير صالحة أو تم استخدامها مسبقًا",
   "@invalidOrAlreadyUsedTicket": {
     "description": "Invalid or already used ticket"
+  },
+  "workshopsComingSoon": "الدورات قريبا",
+  "@workshopsComingSoon": {
+    "description": "Workshops Coming Soon"
+  },
+  "stayTuned": "ترقبوا - سيتم ظهور الجلسات المختارة هنا بمجرد التحضير",
+  "@stayTuned": {
+    "description": "Stay Tuned"
+  },
+  "eventsEmptyStateText": "نحن نُحضِّر التجربة القادمة. عُد قريبًا لتكتشف ما الجديد.",
+  "@eventsEmptyStateText": {
+    "description": "Events Empty State Text"
+  },
+  "noActiveEventsYet": "لا توجد فعاليات",
+  "@noActiveEventsYet": {
+    "description": "No Active Events Yet"
   }
 }

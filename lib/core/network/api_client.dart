@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:modn/core/network/interceptors/pretty_dio_logger.dart';
 
 import 'api_endpoint.dart';
 import 'exceptions/network_exceptions.dart';
@@ -41,15 +39,15 @@ class ApiClient {
     // Add interceptors
     _dio.interceptors.addAll([
       // CustomLoggingInterceptor(),
-      PrettyDioLogger.builder((builder) => builder
-        ..setRequestHeader(true)
-        ..setRequest(true)
-        ..setResponseHeader(true)
-        ..setEnableColors(true)
-        ..setLogPrint((obj) {
-          // Write to file instead of console
-          debugPrint(obj.toString());
-        })),
+      // PrettyDioLogger.builder((builder) => builder
+      //   ..setRequestHeader(true)
+      //   ..setRequest(true)
+      //   ..setResponseHeader(true)
+      //   ..setEnableColors(true)
+      //   ..setLogPrint((obj) {
+      //     // Write to file instead of console
+      //     debugPrint(obj.toString());
+      //   })),
       // LogInterceptor(),
     ]);
 

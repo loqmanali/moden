@@ -102,4 +102,18 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get invalidOrAlreadyUsedTicket =>
       'التذكرة غير صالحة أو تم استخدامها مسبقًا';
+
+  @override
+  String get workshopsComingSoon => 'الدورات قريبا';
+
+  @override
+  String get stayTuned =>
+      'ترقبوا - سيتم ظهور الجلسات المختارة هنا بمجرد التحضير';
+
+  @override
+  String get eventsEmptyStateText =>
+      'نحن نُحضِّر التجربة القادمة. عُد قريبًا لتكتشف ما الجديد.';
+
+  @override
+  String get noActiveEventsYet => 'لا توجد فعاليات';
 }

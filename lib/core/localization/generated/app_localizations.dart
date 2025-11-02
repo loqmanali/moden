@@ -283,6 +283,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid or already used ticket'**
   String get invalidOrAlreadyUsedTicket;
+
+  /// Workshops Coming Soon
+  ///
+  /// In en, this message translates to:
+  /// **'Workshops Coming Soon'**
+  String get workshopsComingSoon;
+
+  /// Stay Tuned
+  ///
+  /// In en, this message translates to:
+  /// **'Stay tuned — curated sessions will appear here as soon as they’re ready.'**
+  String get stayTuned;
+
+  /// Events Empty State Text
+  ///
+  /// In en, this message translates to:
+  /// **'We’re curating the next experience. Check back soon to discover what’s coming next.'**
+  String get eventsEmptyStateText;
+
+  /// No Active Events Yet
+  ///
+  /// In en, this message translates to:
+  /// **'No active events yet'**
+  String get noActiveEventsYet;
 }
 
 class _AppLocalizationsDelegate
