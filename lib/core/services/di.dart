@@ -84,7 +84,7 @@ Future<void> setupDependencies() async {
   }
 
   if (!di.isRegistered<EventCubit>()) {
-    di.registerFactory<EventCubit>(
+    di.registerLazySingleton<EventCubit>(
       () => EventCubit(eventService: di<EventService>()),
     );
   }

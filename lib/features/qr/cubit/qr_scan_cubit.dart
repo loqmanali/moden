@@ -12,7 +12,7 @@ class QrScanCubit extends Cubit<QrScanState> {
   final QrScanService qrScanService;
 
   Future<void> scanQrCode({
-    required String qrData,
+    required dynamic qrData,
     required String type,
     String? workshopId,
     String? deviceId,

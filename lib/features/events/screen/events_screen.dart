@@ -9,6 +9,7 @@ import 'package:modn/core/widgets/app_scaffold.dart';
 import 'package:modn/features/authentication/cubit/login_cubit.dart';
 import 'package:modn/features/events/cubit/event_cubit.dart';
 import 'package:modn/features/events/widgets/event_card.dart';
+import 'package:modn/features/events/widgets/events_empty_state.dart';
 
 import '../../../core/widgets/adaptive_loading.dart';
 import '../../../core/widgets/body_widget.dart';
@@ -32,26 +33,20 @@ class HeaderEvent implements Header {
   Widget build(BuildContext context) {
     return HeaderWidget(
       title: context.l10n.events,
-      trailing: BlocProvider(
-        create: (context) => di<LoginCubit>(),
-        child: BlocBuilder<LoginCubit, LoginState>(
-          builder: (context, state) {
-            return state is LogoutLoadingState
-                ? const LoadingIndicator(
-                    color: Colors.white,
-                  )
-                : IconButton(
-                    icon: const Icon(
-                      FIcons.logOut,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      context.read<LoginCubit>().logout();
-                      context.go(AppNavigations.login);
-                    },
-                  );
-          },
+      trailing: IconButton(
+        icon: const Icon(
+          FIcons.logOut,
+          color: Colors.white,
         ),
+        onPressed: () async {
+          // Create a temporary cubit for logout
+          final loginCubit = di<LoginCubit>();
+          await loginCubit.logout();
+          loginCubit.close();
+          if (context.mounted) {
+            context.go(AppNavigations.login);
+          }
+        },
       ),
     );
   }
@@ -61,57 +56,58 @@ class BodyEvent implements Body {
   const BodyEvent({Key? key});
   @override
   Widget build(BuildContext context) {
+    // Trigger loading if not already loaded
+    final cubit = context.read<EventCubit>();
+    if (cubit.state.status == EventStatus.initial) {
+      cubit.loadActiveEvent();
+    }
+
     return BodyWidget(
       backgroundColor: const Color(0xFFF5F8FA),
-      child: BlocProvider(
-        create: (context) => di<EventCubit>()..loadActiveEvent(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: BlocBuilder<EventCubit, EventState>(
-            builder: (context, state) {
-              return SafeArea(
-                child: SingleChildScrollView(
-                  child: switch (state.status) {
-                    EventStatus.initial || EventStatus.loading => const Padding(
-                        padding: EdgeInsets.only(top: 48),
-                        child: LoadingIndicator(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: BlocBuilder<EventCubit, EventState>(
+          builder: (context, state) {
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: switch (state.status) {
+                  EventStatus.initial || EventStatus.loading => const Padding(
+                      padding: EdgeInsets.only(top: 48),
+                      child: LoadingIndicator(),
+                    ),
+                  EventStatus.failure => Padding(
+                      padding: const EdgeInsets.only(top: 48),
+                      child: Text(
+                        state.message ?? 'Failed to load event',
+                        style: const TextStyle(color: Colors.red),
                       ),
-                    EventStatus.failure => Padding(
-                        padding: const EdgeInsets.only(top: 48),
-                        child: Text(
-                          state.message ?? 'Failed to load event',
-                          style: const TextStyle(color: Colors.red),
+                    ),
+                  EventStatus.success when state.event != null => Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: EventCard(
+                        title: state.event!.title,
+                        dateText: _formatDateRange(
+                          state.event!.date,
+                          state.event!.endDate,
                         ),
+                        location: state.event!.city ?? '',
+                        checkedIn: state.event!.applications.length,
+                        capacity: state.event!.requiredFields.length,
+                        onStartScanning: () =>
+                            context.go('${AppNavigations.qr}?type=event'),
+                        onViewWorkshops: () {
+                          context.go(
+                            AppNavigations.workshops,
+                            extra: state.event!,
+                          );
+                        },
                       ),
-                    EventStatus.success when state.event != null => Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: EventCard(
-                          title: state.event!.title,
-                          dateText: _formatDateRange(
-                            state.event!.date,
-                            state.event!.endDate,
-                          ),
-                          location: state.event!.city ?? '',
-                          checkedIn: state.event!.applications.length,
-                          capacity: state.event!.requiredFields.length,
-                          onStartScanning: () => context.go('${AppNavigations.qr}?type=event'),
-                          onViewWorkshops: () {
-                            context.go(
-                              AppNavigations.workshops,
-                              extra: state.event!,
-                            );
-                          },
-                        ),
-                      ),
-                    _ => const Padding(
-                        padding: EdgeInsets.only(top: 48),
-                        child: Text('No active event found'),
-                      ),
-                  },
-                ),
-              );
-            },
-          ),
+                    ),
+                  _ => const EventsEmptyState(),
+                },
+              ),
+            );
+          },
         ),
       ),
     );

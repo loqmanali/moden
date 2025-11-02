@@ -1,31 +1,34 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:modn/core/storage/storage_service.dart';
 
 /// Interceptor to add authentication headers to requests
 class AuthInterceptor extends Interceptor {
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // TODO: Replace with your authentication logic
-    // For example, get the token from a secure storage
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    final requiresAuth = options.extra['requiresAuth'] != false;
+    if (!requiresAuth) {
+      super.onRequest(options, handler);
+      return;
+    }
 
-    // This is just a placeholder. In a real app, you would get the token from
-    // a secure storage like flutter_secure_storage
-    final token = _getToken();
+    final token = await _getToken();
 
     if (token != null && token.isNotEmpty) {
+      options.headers['token'] = 'Bearer $token';
       options.headers['Authorization'] = 'Bearer $token';
+      debugPrint('✅ AuthInterceptor: Headers added to request');
+    } else {
+      debugPrint('❌ AuthInterceptor: No token available');
     }
 
     super.onRequest(options, handler);
   }
 
   /// Get the authentication token
-  String? _getToken() {
-    // TODO: Implement your token retrieval logic
-    // For example:
-    // final secureStorage = FlutterSecureStorage();
-    // return await secureStorage.read(key: 'auth_token');
-
-    return null;
+  Future<String?> _getToken() async {
+    return Storage.getToken();
   }
 
   @override
@@ -69,24 +72,37 @@ class AuthInterceptor extends Interceptor {
     RequestOptions requestOptions,
     ErrorInterceptorHandler handler,
   ) async {
-    final options = Options(
-      method: requestOptions.method,
-      headers: requestOptions.headers,
-    );
+    final requiresAuth = requestOptions.extra['requiresAuth'] != false;
 
-    final token = _getToken();
+    // Update the token in the request headers
+    final token = requiresAuth ? await _getToken() : null;
 
     if (token != null && token.isNotEmpty) {
-      options.headers?['Authorization'] = 'Bearer $token';
+      requestOptions.headers['token'] = 'Bearer $token';
+      requestOptions.headers['Authorization'] = 'Bearer $token';
+    } else if (!requiresAuth) {
+      requestOptions.headers.remove('token');
+      requestOptions.headers.remove('Authorization');
     }
 
     try {
-      final dio = Dio();
+      // Use the same Dio instance to retry the request
+      // This preserves the base URL and other configurations
+      final dio = Dio(BaseOptions(
+        baseUrl: requestOptions.baseUrl,
+        connectTimeout: requestOptions.connectTimeout,
+        receiveTimeout: requestOptions.receiveTimeout,
+        headers: requestOptions.headers,
+      ));
+
       final response = await dio.request<dynamic>(
         requestOptions.path,
         data: requestOptions.data,
         queryParameters: requestOptions.queryParameters,
-        options: options,
+        options: Options(
+          method: requestOptions.method,
+          extra: requestOptions.extra,
+        ),
       );
 
       handler.resolve(response);

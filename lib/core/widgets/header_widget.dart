@@ -18,6 +18,7 @@ class HeaderWidget extends StatelessWidget {
     this.child,
     this.centerTitle = true,
     this.trailing,
+    this.leading,
   });
 
   final double height;
@@ -32,6 +33,7 @@ class HeaderWidget extends StatelessWidget {
   final Widget? child;
   final bool centerTitle;
   final Widget? trailing;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +90,9 @@ class HeaderWidget extends StatelessWidget {
       crossAxisAlignment:
           centerTitle ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
+        if (leading != null) ...[
+          leading!,
+        ],
         Flexible(child: content),
         const SizedBox(width: 12),
         _RightControls(

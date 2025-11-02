@@ -1,11 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:modn/core/network/interceptors/pretty_dio_logger.dart';
 
 import 'api_endpoint.dart';
 import 'exceptions/network_exceptions.dart';
 import 'interceptors/auth_interceptor.dart';
-import 'interceptors/custom_logging_interceptor.dart';
 import 'models/api_response.dart';
 
 /// API client for handling network requests
@@ -39,8 +40,17 @@ class ApiClient {
 
     // Add interceptors
     _dio.interceptors.addAll([
-      CustomLoggingInterceptor(),
-      LogInterceptor(),
+      // CustomLoggingInterceptor(),
+      PrettyDioLogger.builder((builder) => builder
+        ..setRequestHeader(true)
+        ..setRequest(true)
+        ..setResponseHeader(true)
+        ..setEnableColors(true)
+        ..setLogPrint((obj) {
+          // Write to file instead of console
+          debugPrint(obj.toString());
+        })),
+      // LogInterceptor(),
     ]);
 
     if (useAuth) {
@@ -55,12 +65,14 @@ class ApiClient {
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
+    bool requiresAuth = true,
   }) async {
+    final requestOptions = _resolveOptions(options, requiresAuth);
     try {
       final response = await _dio.get<dynamic>(
         path,
         queryParameters: queryParameters,
-        options: options,
+        options: requestOptions,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
@@ -89,13 +101,15 @@ class ApiClient {
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
+    bool requiresAuth = true,
   }) async {
+    final requestOptions = _resolveOptions(options, requiresAuth);
     try {
       final response = await _dio.post<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: requestOptions,
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -125,13 +139,15 @@ class ApiClient {
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
+    bool requiresAuth = true,
   }) async {
+    final requestOptions = _resolveOptions(options, requiresAuth);
     try {
       final response = await _dio.put<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: requestOptions,
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -159,13 +175,15 @@ class ApiClient {
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
+    bool requiresAuth = true,
   }) async {
+    final requestOptions = _resolveOptions(options, requiresAuth);
     try {
       final response = await _dio.delete<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: requestOptions,
         cancelToken: cancelToken,
       );
 
@@ -193,13 +211,15 @@ class ApiClient {
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
+    bool requiresAuth = true,
   }) async {
+    final requestOptions = _resolveOptions(options, requiresAuth);
     try {
       final response = await _dio.patch<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: requestOptions,
         cancelToken: cancelToken,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
@@ -228,7 +248,9 @@ class ApiClient {
     CancelToken? cancelToken,
     bool deleteOnError = true,
     Options? options,
+    bool requiresAuth = true,
   }) async {
+    final requestOptions = _resolveOptions(options, requiresAuth);
     try {
       final response = await _dio.download(
         url,
@@ -236,7 +258,7 @@ class ApiClient {
         onReceiveProgress: onReceiveProgress,
         cancelToken: cancelToken,
         deleteOnError: deleteOnError,
-        options: options,
+        options: requestOptions,
       );
 
       return ApiResponse<String>.fromResponse(response, data: savePath);
@@ -380,4 +402,27 @@ class ApiClient {
 
   /// Get raw Dio client (use with caution)
   Dio get dio => _dio;
+
+  Options? _resolveOptions(Options? options, bool requiresAuth) {
+    if (options == null && requiresAuth) {
+      return null;
+    }
+
+    if (options == null && !requiresAuth) {
+      return Options(extra: {'requiresAuth': false});
+    }
+
+    final updatedOptions = options!;
+    final updatedExtra = <String, dynamic>{...?updatedOptions.extra};
+    updatedExtra['requiresAuth'] = requiresAuth;
+    updatedOptions.extra = updatedExtra;
+
+    if (!requiresAuth) {
+      final headers = <String, dynamic>{...?updatedOptions.headers};
+      headers.remove('Authorization');
+      updatedOptions.headers = headers;
+    }
+
+    return updatedOptions;
+  }
 }

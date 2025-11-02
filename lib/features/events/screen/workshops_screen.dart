@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:forui/forui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modn/core/localization/localization.dart';
@@ -7,9 +6,8 @@ import 'package:modn/core/routes/app_navigators.dart';
 import 'package:modn/core/services/di.dart';
 import 'package:modn/core/widgets/app_scaffold.dart';
 import 'package:modn/features/authentication/cubit/login_cubit.dart';
-import 'package:modn/features/events/cubit/event_cubit.dart';
+import 'package:modn/features/events/widgets/workshops_empty_state.dart';
 
-import '../../../core/widgets/adaptive_loading.dart';
 import '../../../core/widgets/body_widget.dart';
 import '../../../core/widgets/header_widget.dart';
 import '../models/active_event_model.dart';
@@ -34,26 +32,27 @@ class HeaderWorkshops implements Header {
   Widget build(BuildContext context) {
     return HeaderWidget(
       title: context.l10n.workshops,
-      trailing: BlocProvider(
-        create: (context) => di<LoginCubit>(),
-        child: BlocBuilder<LoginCubit, LoginState>(
-          builder: (context, state) {
-            return state is LogoutLoadingState
-                ? const LoadingIndicator(
-                    color: Colors.white,
-                  )
-                : IconButton(
-                    icon: const Icon(
-                      FIcons.logOut,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      context.read<LoginCubit>().logout();
-                      context.go(AppNavigations.login);
-                    },
-                  );
-          },
+      leading: GestureDetector(
+        child: const Icon(
+          Icons.arrow_back_ios,
+          color: Colors.white,
         ),
+        onTap: () => context.go(AppNavigations.event),
+      ),
+      trailing: IconButton(
+        icon: const Icon(
+          FIcons.logOut,
+          color: Colors.white,
+        ),
+        onPressed: () async {
+          // Create a temporary cubit for logout
+          final loginCubit = di<LoginCubit>();
+          await loginCubit.logout();
+          loginCubit.close();
+          if (context.mounted) {
+            context.go(AppNavigations.login);
+          }
+        },
       ),
     );
   }
@@ -66,31 +65,33 @@ class BodyWorkshops implements Body {
   Widget build(BuildContext context) {
     return BodyWidget(
       backgroundColor: const Color(0xFFF5F8FA),
-      child: BlocProvider(
-        create: (context) => di<EventCubit>()..loadActiveEvent(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: List.generate(event.workshops.length, (index) {
-                  final workshop = event.workshops[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: EventCard(
-                      title: workshop.name.substring(0, 16),
-                      dateText: _formatWorkshopSchedule(workshop, event.date),
-                      location: event.city ?? '',
-                      checkedIn: workshop.speakers.length,
-                      capacity: workshop.speakers.length,
-                      onStartScanning: () => context.go(
-                        '${AppNavigations.qr}?type=workshop&workshopId=${workshop.id}',
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: event.workshops.isEmpty
+                ? const WorkshopsEmptyState()
+                : Column(
+                    children: List.generate(event.workshops.length, (index) {
+                      final workshop = event.workshops[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: EventCard(
+                          title: workshop.name.length > 16
+                              ? workshop.name.substring(0, 16)
+                              : workshop.name,
+                          dateText:
+                              _formatWorkshopSchedule(workshop, event.date),
+                          location: event.city ?? '',
+                          checkedIn: workshop.speakers.length,
+                          capacity: workshop.speakers.length,
+                          onStartScanning: () => context.go(
+                            '${AppNavigations.qr}?type=workshop&workshopId=${workshop.id}',
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
           ),
         ),
       ),
@@ -116,7 +117,8 @@ String _formatDateRange(DateTime? start, DateTime? end) {
   return sameDay ? startText : '$startText - $endText';
 }
 
-String _formatWorkshopSchedule(EventWorkshop workshop, DateTime? eventStartDate) {
+String _formatWorkshopSchedule(
+    EventWorkshop workshop, DateTime? eventStartDate) {
   // Prefer computing the workshop date from the event base date + (day - 1),
   // falling back to the workshop's own date if unavailable.
   DateTime? effectiveDate;

@@ -9,14 +9,14 @@ class QrScanRequest extends Equatable {
     this.deviceId,
   });
 
-  final String qrData;
+  final dynamic qrData; // Can be String or Map<String, dynamic>
   final String type; // "event" or "workshop"
   final String? workshopId;
   final String? deviceId;
 
   Map<String, dynamic> toJson() {
     return {
-      'qrData': qrData,
+      'qrData': qrData is String ? qrData : qrData,
       'type': type,
       if (workshopId != null) 'workshopId': workshopId,
       if (deviceId != null) 'deviceId': deviceId,
