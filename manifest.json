@@ -1,7 +1,7 @@
 {
   "name": "Modn",
-  "short_name": "modn",
-  "description": "modn progressive web application",
+  "short_name": "Modn",
+  "description": "Modn progressive web application",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
