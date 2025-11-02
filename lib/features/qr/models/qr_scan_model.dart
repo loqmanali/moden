@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 
 /// QR Scan Request Model
@@ -15,8 +17,19 @@ class QrScanRequest extends Equatable {
   final String? deviceId;
 
   Map<String, dynamic> toJson() {
+    // Parse qrData if it's a JSON string
+    dynamic parsedQrData = qrData;
+    if (qrData is String) {
+      try {
+        parsedQrData = jsonDecode(qrData);
+      } catch (e) {
+        // If parsing fails, keep as string
+        parsedQrData = qrData;
+      }
+    }
+    
     return {
-      'qrData': qrData is String ? qrData : qrData,
+      'qrData': parsedQrData,
       'type': type,
       if (workshopId != null) 'workshopId': workshopId,
       if (deviceId != null) 'deviceId': deviceId,
@@ -72,9 +85,13 @@ class QrScanResponse extends Equatable {
   final QrScanData? data;
 
   factory QrScanResponse.fromJson(Map<String, dynamic> json) {
+    // Backend returns 'code' and 'msg' instead of 'success' and 'message'
+    final code = json['code'] as int?;
+    final isSuccess = code != null && code >= 200 && code < 300;
+    
     return QrScanResponse(
-      success: json['success'] as bool? ?? false,
-      message: json['message'] as String?,
+      success: json['success'] as bool? ?? isSuccess,
+      message: json['message'] as String? ?? json['msg'] as String?,
       data: json['data'] != null
           ? QrScanData.fromJson(json['data'] as Map<String, dynamic>)
           : null,
@@ -95,6 +112,9 @@ class QrScanData extends Equatable {
     this.workshopId,
     this.deviceId,
     this.scannedAt,
+    this.attendee,
+    this.event,
+    this.workshop,
   });
 
   final String? entryLogId;
@@ -104,6 +124,11 @@ class QrScanData extends Equatable {
   final String? workshopId;
   final String? deviceId;
   final DateTime? scannedAt;
+  
+  // Additional fields from backend response
+  final String? attendee;
+  final String? event;
+  final String? workshop;
 
   factory QrScanData.fromJson(Map<String, dynamic> json) {
     return QrScanData(
@@ -116,6 +141,9 @@ class QrScanData extends Equatable {
       scannedAt: json['scannedAt'] != null
           ? DateTime.parse(json['scannedAt'] as String)
           : null,
+      attendee: json['attendee'] as String?,
+      event: json['event'] as String?,
+      workshop: json['workshop'] as String?,
     );
   }
 
@@ -128,5 +156,8 @@ class QrScanData extends Equatable {
         workshopId,
         deviceId,
         scannedAt,
+        attendee,
+        event,
+        workshop,
       ];
 }

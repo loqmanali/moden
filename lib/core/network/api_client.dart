@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import 'api_endpoint.dart';
 import 'exceptions/network_exceptions.dart';
 import 'interceptors/auth_interceptor.dart';
+import 'interceptors/pretty_dio_logger.dart';
 import 'models/api_response.dart';
 
 /// API client for handling network requests
@@ -39,15 +41,16 @@ class ApiClient {
     // Add interceptors
     _dio.interceptors.addAll([
       // CustomLoggingInterceptor(),
-      // PrettyDioLogger.builder((builder) => builder
-      //   ..setRequestHeader(true)
-      //   ..setRequest(true)
-      //   ..setResponseHeader(true)
-      //   ..setEnableColors(true)
-      //   ..setLogPrint((obj) {
-      //     // Write to file instead of console
-      //     debugPrint(obj.toString());
-      //   })),
+      if (kDebugMode)
+        PrettyDioLogger.builder((builder) => builder
+          ..setRequestHeader(true)
+          ..setRequest(true)
+          ..setResponseHeader(true)
+          ..setEnableColors(true)
+          ..setLogPrint((obj) {
+            // Write to file instead of console
+            debugPrint(obj.toString());
+          })),
       // LogInterceptor(),
     ]);
 
@@ -308,8 +311,15 @@ class ApiClient {
   /// Handle bad responses with different status codes
   NetworkExceptions _handleBadResponse(DioException error) {
     if (error.response == null) {
+      debugPrint('🔴 DioException with null response: ${error.message}');
+      debugPrint('🔴 Error type: ${error.type}');
+      debugPrint('🔴 Request: ${error.requestOptions.uri}');
       return const NetworkExceptions.unexpectedError();
     }
+
+    debugPrint('🔴 Status Code: ${error.response!.statusCode}');
+    debugPrint('🔴 Response Data: ${error.response!.data}');
+    debugPrint('🔴 Response Headers: ${error.response!.headers}');
 
     // Extract error message from backend response
     final rawBackendMessage = _extractBackendErrorMessage(error.response!);
