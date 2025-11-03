@@ -101427,7 +101427,7 @@ return new A.yp()},
 $S:626}
 A.aXT.prototype={
 $0(){var s="application/json",r=new A.wr(3e4),q=A.dr(0,0,3e4),p=A.dr(0,0,3e4)
-p=A.b3w(A.b2F("https://modn-api.semicolonsa.dev/api/",q,A.W(["Content-Type",s,"Accept",s],t.N,t.z),p,B.hn))
+p=A.b3w(A.b2F("https://event.moi.med.sa/api/",q,A.W(["Content-Type",s,"Accept",s],t.N,t.z),p,B.hn))
 r.a=p
 p=p.Zz$
 p.H(p,A.b([],t.lC))
