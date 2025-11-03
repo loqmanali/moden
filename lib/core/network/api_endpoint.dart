@@ -1,7 +1,8 @@
 /// API endpoints for the application
 class ApiEndpoint {
   /// Base URL for the API
-  static const String baseUrl = 'https://modn-api.semicolonsa.dev/api/';
+  // static const String baseUrl = 'https://modn-api.semicolonsa.dev/api/';
+  static const String baseUrl = 'https://event.moi.med.sa/api/';
 
   /// API version
   // static const String apiVersion = 'v1';
