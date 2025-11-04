@@ -42,15 +42,25 @@ class ApiClient {
     _dio.interceptors.addAll([
       // CustomLoggingInterceptor(),
       if (kDebugMode)
-        PrettyDioLogger.builder((builder) => builder
-          ..setRequestHeader(true)
-          ..setRequest(true)
-          ..setResponseHeader(true)
-          ..setEnableColors(true)
-          ..setLogPrint((obj) {
-            // Write to file instead of console
-            debugPrint(obj.toString());
-          })),
+        // PrettyDioLogger.builder((builder) => builder
+        //   ..setRequestHeader(true)
+        //   ..setRequest(true)
+        //   ..setResponseHeader(true)
+        //   ..setEnableColors(true)
+        //   ..setLogPrint((obj) {
+        //     // Write to file instead of console
+        //     debugPrint(obj.toString());
+        //   })),
+        PrettyDioLogger(
+            config: const LoggerConfig(
+          requestHeader: true,
+          requestBody: true,
+          responseHeader: true,
+          responseBody: true,
+          error: true,
+          compact: true,
+          maxWidth: 90,
+        )),
       // LogInterceptor(),
     ]);
 
@@ -376,9 +386,18 @@ class ApiClient {
       final data = response.data;
 
       if (data is Map<String, dynamic>) {
+        String? stringValue(dynamic value) => value?.toString().trim();
+
         // Try to get message field first
-        if (data.containsKey('message') && data['message'] != null) {
-          return data['message'].toString();
+        final message = stringValue(data['message']);
+        if (message != null && message.isNotEmpty) {
+          return message;
+        }
+
+        // Try to get msg field (common backend key)
+        final msg = stringValue(data['msg']);
+        if (msg != null && msg.isNotEmpty) {
+          return msg;
         }
 
         // Try to get error field

@@ -17,10 +17,14 @@ class RejectedScreen extends StatelessWidget {
     super.key,
     this.type = 'event',
     this.workshopId,
+    this.errorMsg,
+    this.errorCode,
   });
 
   final String type;
   final String? workshopId;
+  final String? errorMsg;
+  final String? errorCode;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,8 @@ class RejectedScreen extends StatelessWidget {
       body: RejectedBody(
         type: type,
         workshopId: workshopId,
+        errorMsg: errorMsg,
+        errorCode: errorCode,
       ),
     );
   }
@@ -39,10 +45,14 @@ class RejectedBody implements Body {
     Key? key,
     this.type = 'event',
     this.workshopId,
+    this.errorMsg,
+    this.errorCode,
   });
 
   final String type;
   final String? workshopId;
+  final String? errorMsg;
+  final String? errorCode;
   @override
   Widget build(BuildContext context) {
     return BodyWidget(
@@ -60,14 +70,27 @@ class RejectedBody implements Body {
             ),
           ),
           const AppSpacing.height(20),
-          Text(
-            context.l10n.invalidOrAlreadyUsedTicket,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: AppColors.primaryDark,
+          if (errorMsg != null && errorMsg!.isNotEmpty)
+            Text(
+              errorMsg!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primaryDark,
+              ),
             ),
-          ),
+          if (errorCode != null) ...[
+            const AppSpacing.height(8),
+            Text(
+              '#$errorCode',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primaryDark,
+              ),
+            ),
+          ],
           const AppSpacing.height(50),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 48),

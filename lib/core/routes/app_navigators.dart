@@ -146,9 +146,13 @@ final router = GoRouter(
       builder: (context, state) {
         final type = state.queryParameters['type'] ?? 'event';
         final workshopId = state.queryParameters['workshopId'];
+        final errorMsg = state.queryParameters['errorMsg'];
+        final errorCode = state.queryParameters['errorCode'];
         return RejectedScreen(
           type: type,
           workshopId: workshopId,
+          errorMsg: errorMsg,
+          errorCode: errorCode,
         );
       },
     ),

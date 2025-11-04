@@ -6,7 +6,8 @@ class ApiEndpoint {
   static const String baseUrlDev = 'https://modn-api.semicolonsa.dev/api/';
   static const String baseUrlProd = 'https://event.moi.med.sa/api/';
 
-  static String get baseUrl => RemoteConfigService.isDev ? baseUrlDev : baseUrlProd;
+  static String get baseUrl =>
+      RemoteConfigService.isDev ? baseUrlDev : baseUrlProd;
 
   /// API version
   // static const String apiVersion = 'v1';

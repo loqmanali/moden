@@ -78,11 +78,13 @@ class QrScanResponse extends Equatable {
     required this.success,
     this.message,
     this.data,
+    this.code,
   });
 
   final bool success;
   final String? message;
   final QrScanData? data;
+  final int? code;
 
   factory QrScanResponse.fromJson(Map<String, dynamic> json) {
     // Backend returns 'code' and 'msg' instead of 'success' and 'message'
@@ -95,11 +97,12 @@ class QrScanResponse extends Equatable {
       data: json['data'] != null
           ? QrScanData.fromJson(json['data'] as Map<String, dynamic>)
           : null,
+      code: code,
     );
   }
 
   @override
-  List<Object?> get props => [success, message, data];
+  List<Object?> get props => [success, message, data, code];
 }
 
 /// QR Scan Data Model

@@ -120,17 +120,29 @@ class _QrScreenContentState extends State<_QrScreenContent> {
 
       // Navigate based on response
       final state = qrScanCubit.state;
-      final queryParams = widget.workshopId != null
-          ? '?type=${widget.type}&workshopId=${widget.workshopId}'
-          : '?type=${widget.type}';
+      final baseParams = <String, String>{
+        'type': widget.type,
+        if (widget.workshopId != null) 'workshopId': widget.workshopId!,
+      };
       
       if (state.status == QrScanStatus.success && state.response?.success == true) {
         if (mounted) {
-          context.push('${AppNavigations.qrAccepted}$queryParams');
+          final qp = Uri(queryParameters: baseParams).query;
+          context.push('${AppNavigations.qrAccepted}?$qp');
         }
       } else {
         if (mounted) {
-          context.push('${AppNavigations.qrRejected}$queryParams');
+          // Collect error info from state/response
+          final errorMessage = state.message ?? state.response?.message;
+          final errorCode = state.response?.code;
+          final qp = Uri(
+            queryParameters: <String, String>{
+              ...baseParams,
+              if (errorMessage != null) 'errorMsg': errorMessage,
+              if (errorCode != null) 'errorCode': errorCode.toString(),
+            },
+          ).query;
+          context.push('${AppNavigations.qrRejected}?$qp');
         }
       }
     } catch (e) {
@@ -141,10 +153,14 @@ class _QrScreenContentState extends State<_QrScreenContent> {
           _isLoading = false;
           _isScanning = false;
         });
-        final queryParams = widget.workshopId != null
-            ? '?type=${widget.type}&workshopId=${widget.workshopId}'
-            : '?type=${widget.type}';
-        context.push('${AppNavigations.qrRejected}$queryParams');
+        final qp = Uri(
+          queryParameters: <String, String>{
+            'type': widget.type,
+            if (widget.workshopId != null) 'workshopId': widget.workshopId!,
+            'errorMsg': e.toString(),
+          },
+        ).query;
+        context.push('${AppNavigations.qrRejected}?$qp');
       }
     }
   }
