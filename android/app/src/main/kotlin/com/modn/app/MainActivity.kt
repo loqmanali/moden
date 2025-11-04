@@ -1,4 +1,4 @@
-package com.example.modn
+package com.modn.app
 
 import io.flutter.embedding.android.FlutterActivity
 
