@@ -7,6 +7,9 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:modn/core/services/di.dart';
 import 'package:modn/core/utils/app_system_ui.dart';
 import 'package:modn/core/utils/state_management_observability.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'core/config/remote_config_service.dart';
 
 import 'app/app.dart';
 
@@ -14,10 +17,12 @@ void main() async {
   // Initialize Flutter binding
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize Firebase
-//   await Firebase.initializeApp(
-// // Uncomment the following line if you have a custom Firebase options file
-//     // options: DefaultFirebaseOptions.currentPlatform,
-//   );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Initialize Remote Config before DI so services can read values
+  await RemoteConfigService.initialize();
 
   // Initialize notification services
   // await notificationHandler.initialize();
