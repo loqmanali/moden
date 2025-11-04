@@ -1,11 +1,12 @@
 name: modn
 description: Modn App
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+2
+version: 1.0.0+3
 environment:
   sdk: '>=3.5.0 <4.0.0'
 
 dependencies:
+  sentry_flutter: ^9.8.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -62,6 +63,7 @@ dependencies:
   get_it: ^7.6.4
 
 dev_dependencies:
+  sentry_dart_plugin: ^3.2.0
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
@@ -101,3 +103,9 @@ flutter_native_splash:
     image: assets/images/logo_bg.png
     icon_background_color: "#FFFFFF"
   web: false
+
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: modn
+  org: loqman-cc

@@ -49,3 +49,5 @@ app.*.map.json
 FIREBASE_COMPLETE_SETUP.md
 NEXT_STEPS.md
 FIREBASE_SETUP.md
+
+sentry.properties
