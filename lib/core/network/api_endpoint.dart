@@ -6,7 +6,7 @@ class ApiEndpoint {
 
   // static String get baseUrl =>
   //     RemoteConfigService.isDev ? baseUrlDev : baseUrlProd;
-  static String get baseUrl => baseUrlDev;
+  static String get baseUrl => baseUrlProd;
 
   /// API version
   // static const String apiVersion = 'v1';
