@@ -82,6 +82,7 @@ class HeaderWidget extends StatelessWidget {
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 fontSize: 28,
+                height: 1.2,
               ),
         );
 

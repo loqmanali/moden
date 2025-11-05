@@ -307,6 +307,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No active events yet'**
   String get noActiveEventsYet;
+
+  /// Back
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// QR Code
+  ///
+  /// In en, this message translates to:
+  /// **'QR Code'**
+  String get qrCode;
+
+  /// Enter National ID
+  ///
+  /// In en, this message translates to:
+  /// **'Enter National ID'**
+  String get enterNationalId;
+
+  /// National ID Must Be 10 Digits
+  ///
+  /// In en, this message translates to:
+  /// **'National ID Must Be 10 Digits'**
+  String get nationalIdMustBe10Digits;
+
+  /// Search
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// Please Enter National ID
+  ///
+  /// In en, this message translates to:
+  /// **'Please Enter National ID'**
+  String get pleaseEnterNationalId;
+
+  /// Search By National ID
+  ///
+  /// In en, this message translates to:
+  /// **'Search By National ID'**
+  String get searchByNationalId;
 }
 
 class _AppLocalizationsDelegate

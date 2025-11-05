@@ -17,6 +17,7 @@ class EventCard extends StatelessWidget {
     required this.capacity,
     this.onViewWorkshops,
     this.onStartScanning,
+    this.onSearchByNationalId,
   });
 
   final String title;
@@ -26,6 +27,7 @@ class EventCard extends StatelessWidget {
   final int capacity;
   final VoidCallback? onViewWorkshops;
   final VoidCallback? onStartScanning;
+  final VoidCallback? onSearchByNationalId;
 
   @override
   Widget build(BuildContext context) {
@@ -80,15 +82,50 @@ class EventCard extends StatelessWidget {
 
             const AppSpacing.height(14),
 
-            // CTA button
+            // CTA buttons
             onViewWorkshops != null
-                ? Row(
+                ? Column(
                     children: [
-                      Expanded(
-                        child: AdaptiveButton(
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AdaptiveButton(
+                              variant: AdaptiveButtonVariant.outlined,
+                              onPressed: onViewWorkshops,
+                              label: L10n.viewWorkshops,
+                              borderRadius: 24,
+                              sizeSpec: const ButtonSizeSpec(
+                                height: 34,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 10),
+                              ),
+                            ),
+                          ),
+                          const AppSpacing.width(8),
+                          Expanded(
+                            child: AdaptiveButton(
+                              onPressed: onStartScanning,
+                              label: L10n.startScanning,
+                              borderRadius: 24,
+                              sizeSpec: const ButtonSizeSpec(
+                                height: 34,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 10),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (onSearchByNationalId != null) ...[
+                        const AppSpacing.height(8),
+                        AdaptiveButton(
                           variant: AdaptiveButtonVariant.outlined,
-                          onPressed: onViewWorkshops,
-                          label: L10n.viewWorkshops,
+                          onPressed: onSearchByNationalId,
+                          label: L10n.searchByNationalId,
                           borderRadius: 24,
                           sizeSpec: const ButtonSizeSpec(
                             height: 34,
@@ -98,35 +135,40 @@ class EventCard extends StatelessWidget {
                                 horizontal: 16, vertical: 10),
                           ),
                         ),
+                      ],
+                    ],
+                  )
+                : Column(
+                    children: [
+                      AdaptiveButton(
+                        onPressed: onStartScanning,
+                        label: L10n.startScanning,
+                        borderRadius: 24,
+                        sizeSpec: const ButtonSizeSpec(
+                          height: 34,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
+                        ),
                       ),
-                      const AppSpacing.width(8),
-                      Expanded(
-                        child: AdaptiveButton(
-                          onPressed: onStartScanning,
-                          label: L10n.startScanning,
+                      if (onSearchByNationalId != null) ...[
+                        const AppSpacing.height(8),
+                        AdaptiveButton(
+                          variant: AdaptiveButtonVariant.outlined,
+                          onPressed: onSearchByNationalId,
+                          label: 'بحث بالهوية الوطنية',
                           borderRadius: 24,
                           sizeSpec: const ButtonSizeSpec(
                             height: 34,
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.w600,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 10),
                           ),
                         ),
-                      ),
+                      ],
                     ],
-                  )
-                : AdaptiveButton(
-                    onPressed: onStartScanning,
-                    label: L10n.startScanning,
-                    borderRadius: 24,
-                    sizeSpec: const ButtonSizeSpec(
-                      height: 34,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    ),
                   ),
           ],
         ),

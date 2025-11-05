@@ -139,5 +139,33 @@
   "noActiveEventsYet": "No active events yet",
   "@noActiveEventsYet": {
     "description": "No Active Events Yet"
+  },
+  "back": "Back",
+  "@back": {
+    "description": "Back"
+  },
+  "qrCode": "QR Code",
+  "@qrCode": {
+    "description": "QR Code"
+  },
+  "enterNationalId": "Enter National ID",
+  "@enterNationalId": {
+    "description": "Enter National ID"
+  },
+  "nationalIdMustBe10Digits": "National ID Must Be 10 Digits",
+  "@nationalIdMustBe10Digits": {
+    "description": "National ID Must Be 10 Digits"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Search"
+  },
+  "pleaseEnterNationalId": "Please Enter National ID",
+  "@pleaseEnterNationalId": {
+    "description": "Please Enter National ID"
+  },
+  "searchByNationalId": "Search By National ID",
+  "@searchByNationalId": {
+    "description": "Search By National ID"
   }
 }

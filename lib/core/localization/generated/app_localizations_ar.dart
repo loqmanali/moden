@@ -116,4 +116,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noActiveEventsYet => 'لا توجد فعاليات';
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get qrCode => 'رمز';
+
+  @override
+  String get enterNationalId => 'أدخل رقم الهوية الوطنية';
+
+  @override
+  String get nationalIdMustBe10Digits =>
+      'رقم الهوية الوطنية يجب أن يكون 10 أرقام';
+
+  @override
+  String get search => 'بحث';
+
+  @override
+  String get pleaseEnterNationalId => 'الرجاء إدخال رقم الهوية الوطنية';
+
+  @override
+  String get searchByNationalId => 'البحث بالهوية الوطنية';
 }

@@ -68,6 +68,13 @@ class L10n {
   static String get stayTuned => _tr.stayTuned;
   static String get eventsEmptyStateText => _tr.eventsEmptyStateText;
   static String get noActiveEventsYet => _tr.noActiveEventsYet;
+  static String get back => _tr.back;
+  static String get qrCode => _tr.qrCode;
+  static String get enterNationalId => _tr.enterNationalId;
+  static String get nationalIdMustBe10Digits => _tr.nationalIdMustBe10Digits;
+  static String get search => _tr.search;
+  static String get pleaseEnterNationalId => _tr.pleaseEnterNationalId;
+  static String get searchByNationalId => _tr.searchByNationalId;
 
   // Methods
 }

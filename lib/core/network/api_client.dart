@@ -251,6 +251,37 @@ class ApiClient {
     }
   }
 
+  /// Custom request with specific HTTP method
+  /// Useful for non-standard requests like GET with body
+  Future<ApiResponse<T>> getWithBody<T>(
+    String path, {
+    required String method,
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    bool requiresAuth = true,
+  }) async {
+    final baseOptions = _resolveOptions(options, requiresAuth);
+    final requestOptions = baseOptions != null
+        ? baseOptions.copyWith(method: method)
+        : Options(method: method);
+
+    try {
+      final response = await _dio.request<dynamic>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: requestOptions,
+        cancelToken: cancelToken,
+      );
+
+      return ApiResponse<T>.fromResponse(response, data: response.data as T);
+    } catch (e) {
+      return ApiResponse<T>.withError(_handleError(e));
+    }
+  }
+
   /// Download file
   Future<ApiResponse<String>> download(
     String url,

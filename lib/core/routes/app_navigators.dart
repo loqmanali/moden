@@ -8,6 +8,7 @@ import 'package:modn/features/events/models/active_event_model.dart';
 import 'package:modn/features/events/screen/events_screen.dart';
 import 'package:modn/features/events/screen/workshops_screen.dart';
 import 'package:modn/features/qr/screen/accepted_screen.dart';
+import 'package:modn/features/qr/screen/national_id_search_screen.dart';
 import 'package:modn/features/qr/screen/qr_screen.dart';
 import 'package:modn/features/qr/screen/rejected_screen.dart';
 import 'package:modn/features/splash/splash_screen.dart';
@@ -33,6 +34,9 @@ class AppNavigations {
 
   /// QR rejected routes
   static const String qrRejected = '/qr/rejected';
+
+  /// National ID search routes
+  static const String nationalIdSearch = '/national-id-search';
 }
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -153,6 +157,23 @@ final router = GoRouter(
           workshopId: workshopId,
           errorMsg: errorMsg,
           errorCode: errorCode,
+        );
+      },
+    ),
+
+    /// National ID search routes
+    GoRoute(
+      parentNavigatorKey: rootNavigatorKey,
+      name: AppNavigations.nationalIdSearch,
+      path: AppNavigations.nationalIdSearch,
+      builder: (context, state) {
+        final type = state.queryParameters['type'] ?? 'event';
+        final workshopId = state.queryParameters['workshopId'];
+        final eventId = state.queryParameters['eventId'];
+        return NationalIdSearchScreen(
+          type: type,
+          workshopId: workshopId,
+          eventId: eventId,
         );
       },
     ),
