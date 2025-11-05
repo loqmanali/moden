@@ -13,10 +13,9 @@ class NationalIdQrService {
     required NationalIdQrRequest request,
   }) async {
     // Using POST instead of GET because web platform doesn't support GET with body
-    final apiResponse = await apiClient.getWithBody<Map<String, dynamic>>(
+    final apiResponse = await apiClient.get<Map<String, dynamic>>(
       ApiEndpoint.getUserQr,
-      data: request.toJson(),
-      method: 'GET',
+      queryParameters: request.toJson(),
     );
 
     if (apiResponse.isError || apiResponse.data == null) {
