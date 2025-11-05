@@ -101,6 +101,11 @@ class BodyEvent implements Body {
                             extra: state.event!,
                           );
                         },
+                        onSearchByNationalId: () {
+                          context.go(
+                            '${AppNavigations.nationalIdSearch}?type=event&eventId=${state.event!.id}',
+                          );
+                        },
                       ),
                     ),
                   _ => const EventsEmptyState(),

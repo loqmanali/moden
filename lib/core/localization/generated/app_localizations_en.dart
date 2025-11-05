@@ -115,4 +115,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noActiveEventsYet => 'No active events yet';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get qrCode => 'QR Code';
+
+  @override
+  String get enterNationalId => 'Enter National ID';
+
+  @override
+  String get nationalIdMustBe10Digits => 'National ID Must Be 10 Digits';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get pleaseEnterNationalId => 'Please Enter National ID';
+
+  @override
+  String get searchByNationalId => 'Search By National ID';
 }
