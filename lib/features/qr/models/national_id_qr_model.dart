@@ -13,8 +13,8 @@ class NationalIdQrRequest extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'national_id': nationalId,
-      'eventId': '66d9d045141cdfb65e69b0d8',
-      // 'eventId': eventId,
+      // 'eventId': '66d9d045141cdfb65e69b0d8',
+      'eventId': eventId,
     };
   }
 
