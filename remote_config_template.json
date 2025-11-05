@@ -1,0 +1,25 @@
+{
+  "parameters": {
+    "is_dev": {
+      "defaultValue": { "value": "false" },
+      "valueType": "BOOLEAN",
+      "description": "Global default; app fallback if no platform/version-specific key exists."
+    },
+
+    "is_dev_web":     { "defaultValue": { "value": "true"  }, "valueType": "BOOLEAN", "description": "Override for all Web builds" },
+    "is_dev_android": { "defaultValue": { "value": "false" }, "valueType": "BOOLEAN", "description": "Override for all Android builds" },
+    "is_dev_ios":     { "defaultValue": { "value": "false" }, "valueType": "BOOLEAN", "description": "Override for all iOS builds" },
+    "is_dev_macos":   { "defaultValue": { "value": "false" }, "valueType": "BOOLEAN", "description": "Override for all macOS builds" },
+    "is_dev_windows": { "defaultValue": { "value": "false" }, "valueType": "BOOLEAN", "description": "Override for all Windows builds" },
+    "is_dev_linux":   { "defaultValue": { "value": "false" }, "valueType": "BOOLEAN", "description": "Override for all Linux builds" },
+    "is_dev_fuchsia": { "defaultValue": { "value": "false" }, "valueType": "BOOLEAN", "description": "Override for all Fuchsia builds" },
+
+    "is_dev_web_1_2_3":     { "defaultValue": { "value": "true"  }, "valueType": "BOOLEAN", "description": "Only Web @ version 1.2.3 (use 1_2_3 format)" },
+    "is_dev_android_1_2_3": { "defaultValue": { "value": "true"  }, "valueType": "BOOLEAN", "description": "Only Android @ version 1.2.3" },
+    "is_dev_ios_1_2_3":     { "defaultValue": { "value": "true"  }, "valueType": "BOOLEAN", "description": "Only iOS @ version 1.2.3" }
+
+
+  },
+
+  "conditions": []
+}

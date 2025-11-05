@@ -11,7 +11,9 @@ import 'package:modn/features/authentication/cubit/login_cubit.dart';
 import 'package:modn/features/authentication/services/login_service.dart';
 import 'package:modn/features/events/cubit/event_cubit.dart';
 import 'package:modn/features/events/services/event_service.dart';
+import 'package:modn/features/qr/cubit/national_id_qr_cubit.dart';
 import 'package:modn/features/qr/cubit/qr_scan_cubit.dart';
+import 'package:modn/features/qr/services/national_id_qr_service.dart';
 import 'package:modn/features/qr/services/qr_scan_service.dart';
 
 final GetIt di = GetIt.instance;
@@ -99,6 +101,19 @@ Future<void> setupDependencies() async {
   if (!di.isRegistered<QrScanCubit>()) {
     di.registerFactory<QrScanCubit>(
       () => QrScanCubit(qrScanService: di<QrScanService>()),
+    );
+  }
+
+  // ==================== National ID QR ====================
+  if (!di.isRegistered<NationalIdQrService>()) {
+    di.registerLazySingleton<NationalIdQrService>(
+      () => NationalIdQrService(apiClient: di<ApiClient>()),
+    );
+  }
+
+  if (!di.isRegistered<NationalIdQrCubit>()) {
+    di.registerFactory<NationalIdQrCubit>(
+      () => NationalIdQrCubit(nationalIdQrService: di<NationalIdQrService>()),
     );
   }
 }

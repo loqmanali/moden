@@ -19,6 +19,7 @@ class ApiEndpoint {
   static const String refreshToken = 'admin-dashboard/auth/refresh-token';
   static const String activeEvent = 'event/active';
   static const String scanQr = 'entry-log/scan';
+  static const String getUserQr = 'user/qr';
 
   /// Headers
   static const Map<String, String> defaultHeaders = {

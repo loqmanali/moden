@@ -139,5 +139,33 @@
   "noActiveEventsYet": "لا توجد فعاليات",
   "@noActiveEventsYet": {
     "description": "No Active Events Yet"
+  },
+  "back": "رجوع",
+  "@back": {
+    "description": "Back"
+  },
+  "qrCode": "رمز",
+  "@qrCode": {
+    "description": "QR Code"
+  },
+  "enterNationalId": "أدخل رقم الهوية الوطنية",
+  "@enterNationalId": {
+    "description": "Enter National ID"
+  },
+  "nationalIdMustBe10Digits": "رقم الهوية الوطنية يجب أن يكون 10 أرقام",
+  "@nationalIdMustBe10Digits": {
+    "description": "National ID Must Be 10 Digits"
+  },
+  "search": "بحث",
+  "@search": {
+    "description": "Search"
+  },
+  "pleaseEnterNationalId": "الرجاء إدخال رقم الهوية الوطنية",
+  "@pleaseEnterNationalId": {
+    "description": "Please Enter National ID"
+  },
+  "searchByNationalId": "البحث بالهوية الوطنية",
+  "@searchByNationalId": {
+    "description": "Search By National ID"
   }
 }
