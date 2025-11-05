@@ -2,9 +2,9 @@ name: Deploy Flutter PWA to GitHub Pages
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ prod ]
   pull_request:
-    branches: [ dev ]
+    branches: [ prod ]
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/prod'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build/web
