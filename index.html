@@ -40,8 +40,25 @@
 
   <meta name="theme-color" content="#ffffff">
 
+  <!-- Firebase Configuration -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
   <script>
-    // const serviceWorkerVersion = ""3078242717"";
+    const firebaseConfig = {
+      apiKey: "AIzaSyAausboYamTTf-5_66yv2Vkv2Nk2RvHtsU",
+      authDomain: "modn-app.firebaseapp.com",
+      projectId: "modn-app",
+      storageBucket: "modn-app.firebasestorage.app",
+      messagingSenderId: "921345967979",
+      appId: "1:921345967979:web:5dfaa362617248f9a82e2e"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script>
+    // const serviceWorkerVersion = ""2611872539"";
 
     window.addEventListener('load', function () {
       if ('serviceWorker' in navigator) {
