@@ -2,7 +2,7 @@ name: Firebase App Distribution
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ prod ]
     paths-ignore:
       - '**.md'
       - '.github/workflows/deploy.yml'
