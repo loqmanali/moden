@@ -15,43 +15,6 @@ import 'core/config/remote_config_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  // Initialize Flutter binding
-  WidgetsFlutterBinding.ensureInitialized();
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  // Initialize Remote Config before DI so services can read values
-  await RemoteConfigService.initialize();
-
-  // Initialize notification services
-  // await notificationHandler.initialize();
-
-  setPathUrlStrategy();
-
-  // Initialize BLoC observer
-  Bloc.observer = AppBlocObserver();
-
-  // // Set system UI overlay style
-  // SystemChrome.setSystemUIOverlayStyle(
-  //   const SystemUiOverlayStyle(
-  //     statusBarColor: Colors.transparent,
-  //     statusBarIconBrightness: Brightness.dark,
-  //     systemNavigationBarColor: Colors.white,
-  //     systemNavigationBarIconBrightness: Brightness.dark,
-  //   ),
-  // );
-  await setupDependencies();
-
-  if (!kIsWeb) {
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    AppSystemUi.setSystemUIWithoutContext(isDark: true);
-  }
-
   await SentryFlutter.init(
     (options) {
       options.dsn =
@@ -70,8 +33,47 @@ void main() async {
       options.replay.sessionSampleRate = 0.1;
       options.replay.onErrorSampleRate = 1.0;
     },
-    appRunner: () => runApp(SentryWidget(
-      child: const App(),
-    )),
+    appRunner: () async {
+      // Initialize Flutter binding
+      WidgetsFlutterBinding.ensureInitialized();
+      // Initialize Firebase
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+
+      // Initialize Remote Config before DI so services can read values
+      await RemoteConfigService.initialize();
+
+      // Initialize notification services
+      // await notificationHandler.initialize();
+
+      setPathUrlStrategy();
+
+      // Initialize BLoC observer
+      Bloc.observer = AppBlocObserver();
+
+      // // Set system UI overlay style
+      // SystemChrome.setSystemUIOverlayStyle(
+      //   const SystemUiOverlayStyle(
+      //     statusBarColor: Colors.transparent,
+      //     statusBarIconBrightness: Brightness.dark,
+      //     systemNavigationBarColor: Colors.white,
+      //     systemNavigationBarIconBrightness: Brightness.dark,
+      //   ),
+      // );
+      await setupDependencies();
+
+      if (!kIsWeb) {
+        await SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
+        AppSystemUi.setSystemUIWithoutContext(isDark: true);
+      }
+
+      runApp(SentryWidget(
+        child: const App(),
+      ));
+    },
   );
 }
